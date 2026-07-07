@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "title": "The Verandah House",
+    "category": "Residential · Full Home",
+    "location": "Alibaug, Maharashtra",
+    "year": 2024,
+    "palette": ["#C4A882","#8B7355","#F5EDE0","#3D3530"],
+    "description": "A beachside bungalow redesigned around indoor-outdoor living. Raw concrete textures meet woven rattan and hand-thrown ceramics.",
+    "tags": ["Residential","Coastal","Biophilic"],
+    "featured": true
+  },
+  {
+    "id": 2,
+    "title": "Studio Loft 12B",
+    "category": "Residential · Single Room",
+    "location": "Bandra West, Mumbai",
+    "year": 2024,
+    "palette": ["#2C2C2C","#E8D5B0","#8B4513","#F0EBE3"],
+    "description": "A 650 sq.ft apartment that doubles as a creative workspace.",
+    "tags": ["Residential","Studio","Modern"],
+    "featured": false
+  },
+  {
+    "id": 3,
+    "title": "The Saffron House",
+    "category": "Hospitality",
+    "location": "Jaisalmer, Rajasthan",
+    "year": 2023,
+    "palette": ["#D4790A","#2D1B00","#F5DEB3","#8B6914"],
+    "description": "A 14-room boutique hotel where local craftsmanship is the architecture.",
+    "tags": ["Hospitality","Heritage","Award Winner"],
+    "featured": true
+  },
+  {
+    "id": 4,
+    "title": "Morph Office, Bengaluru",
+    "category": "Commercial · Office",
+    "location": "Indiranagar, Bengaluru",
+    "year": 2023,
+    "palette": ["#1A1A2E","#16213E","#0F3460","#E94560"],
+    "description": "A 4,000 sq.ft tech workspace that rejects the open-plan orthodoxy.",
+    "tags": ["Commercial","Office","Biophilic"],
+    "featured": false
+  },
+  {
+    "id": 5,
+    "title": "Kohl Restaurant",
+    "category": "Hospitality · F&B",
+    "location": "Hauz Khas, Delhi",
+    "year": 2023,
+    "palette": ["#0D0D0D","#C9A85C","#6B3F1A","#F5F0E8"],
+    "description": "A 60-cover restaurant with smoky charcoal walls and hand-hammered brass.",
+    "tags": ["Hospitality","Restaurant","Dark Palette"],
+    "featured": true
+  },
+  {
+    "id": 6,
+    "title": "The Quiet House",
+    "category": "Residential · Full Home",
+    "location": "Lonavala, Maharashtra",
+    "year": 2022,
+    "palette": ["#E8E0D5","#9B8B7A","#4A3F35","#FAFAF8"],
+    "description": "A weekend retreat designed for stillness. Minimal objects, maximum light.",
+    "tags": ["Residential","Minimalist","Weekend Home"],
+    "featured": false
+  }
+]

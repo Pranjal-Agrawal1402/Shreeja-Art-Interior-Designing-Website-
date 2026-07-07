@@ -1,0 +1,83 @@
+/* ── PAGE HERO ──────────────────────────────────────────────── */
+.page-hero { padding: 10rem 4rem 5rem; border-bottom: 1px solid rgba(196,168,130,0.15); }
+.page-hero__label { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--sand); text-transform: uppercase; margin-bottom: 1rem; }
+.page-hero__title { font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 300; color: var(--white); line-height: 1.15; }
+.page-hero__title em { color: var(--sand); }
+
+/* ── PORTFOLIO ──────────────────────────────────────────────── */
+.portfolio-section { padding: 4rem; }
+.portfolio-filters { display: flex; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+.filter-btn { background: transparent; border: 1px solid rgba(196,168,130,0.25); color: var(--bone); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1.2rem; cursor: pointer; transition: all 0.3s; opacity: 0.65; }
+.filter-btn:hover, .filter-btn.active { background: var(--sand); border-color: var(--sand); color: var(--ink); opacity: 1; }
+.portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.portfolio-card { background: rgba(245,240,232,0.04); border: 1px solid rgba(196,168,130,0.1); overflow: hidden; transition: all 0.4s; }
+.portfolio-card:hover { border-color: rgba(196,168,130,0.4); transform: translateY(-4px); }
+.portfolio-card__img { height: 280px; position: relative; overflow: hidden; }
+.portfolio-card__body { padding: 1.5rem; }
+.portfolio-card__year { font-family: var(--mono); font-size: 0.65rem; color: var(--sand); opacity: 0.6; }
+.portfolio-card__title { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; color: var(--white); margin: 0.4rem 0 0.3rem; }
+.portfolio-card__loc { font-family: var(--mono); font-size: 0.65rem; color: var(--sand); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.8rem; }
+.portfolio-card__desc { font-size: 0.85rem; color: var(--bone); opacity: 0.65; line-height: 1.7; }
+
+/* ── SERVICES ───────────────────────────────────────────────── */
+.services-section { padding: 4rem; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.service-card { border: 1px solid rgba(196,168,130,0.15); padding: 2.5rem; transition: all 0.4s; }
+.service-card:hover { border-color: var(--sand); background: rgba(196,168,130,0.05); }
+.service-card__icon { font-size: 1.5rem; color: var(--sand); margin-bottom: 1rem; }
+.service-card__name { font-family: var(--serif); font-size: 1.3rem; color: var(--white); margin-bottom: 0.75rem; }
+.service-card__desc { font-size: 0.85rem; color: var(--bone); opacity: 0.65; line-height: 1.7; margin-bottom: 1.25rem; }
+.service-card__price { font-family: var(--mono); font-size: 0.75rem; color: var(--sand); letter-spacing: 0.1em; }
+.services-cta { padding: 6rem 4rem; background: var(--sand); text-align: center; }
+.services-cta__inner h2 { font-family: var(--serif); font-size: 2.5rem; color: var(--ink); margin-bottom: 0.75rem; }
+.services-cta__inner p { color: rgba(26,22,17,0.7); margin-bottom: 2rem; }
+
+/* ── ABOUT ──────────────────────────────────────────────────── */
+.about-section { padding: 4rem; }
+.about-story { max-width: 700px; margin: 0 auto 6rem; }
+.about-story__text p { color: var(--bone); opacity: 0.75; line-height: 1.9; font-size: 1.05rem; margin-bottom: 1.2rem; }
+.team-section { margin-top: 2rem; }
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 3rem; }
+.team-card { text-align: center; padding: 2rem 1.5rem; border: 1px solid rgba(196,168,130,0.12); transition: all 0.4s; }
+.team-card:hover { border-color: var(--sand); }
+.team-card__avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--sand); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 1.4rem; color: var(--ink); margin: 0 auto 1rem; }
+.team-card__name { font-family: var(--serif); font-size: 1.1rem; color: var(--white); margin-bottom: 0.25rem; }
+.team-card__role { font-family: var(--mono); font-size: 0.65rem; color: var(--sand); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
+.team-card__bio { font-size: 0.82rem; color: var(--bone); opacity: 0.6; line-height: 1.6; }
+
+/* ── CONTACT ────────────────────────────────────────────────── */
+.contact-section { padding: 4rem; }
+.contact-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; }
+.contact-info__item { margin-bottom: 2rem; }
+.contact-info__label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; color: var(--sand); text-transform: uppercase; display: block; margin-bottom: 0.3rem; }
+.contact-info__item p { color: var(--bone); opacity: 0.7; font-size: 0.9rem; line-height: 1.7; }
+.contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; color: var(--sand); text-transform: uppercase; }
+.form-group input, .form-group textarea, .form-group select {
+  background: rgba(245,240,232,0.05); border: 1px solid rgba(196,168,130,0.2);
+  color: var(--bone); font-family: var(--sans); font-size: 0.9rem;
+  padding: 0.8rem 1rem; outline: none; transition: border-color 0.3s;
+  appearance: none; -webkit-appearance: none;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--sand); }
+.form-group input::placeholder, .form-group textarea::placeholder { color: rgba(245,240,232,0.25); }
+.form-group select option { background: #1A1611; }
+.form-error { font-family: var(--mono); font-size: 0.65rem; color: #e07070; letter-spacing: 0.05em; }
+.form-success { font-family: var(--mono); font-size: 0.75rem; margin-top: 0.5rem; min-height: 1.2rem; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .page-hero { padding: 7rem 1.5rem 3rem; }
+  .portfolio-section, .services-section, .about-section, .contact-section { padding: 3rem 1.5rem; }
+  .portfolio-grid, .services-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .form-row { grid-template-columns: 1fr; }
+}

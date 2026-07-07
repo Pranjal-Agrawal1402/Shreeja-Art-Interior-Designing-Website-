@@ -1,0 +1,326 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — Luminae Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/admin.css"/>
+</head>
+<body class="admin-body">
+<aside class="sidebar">
+  <div class="sidebar__logo"><span class="logo-mark">L</span><span class="logo-text">Luminae</span></div>
+  <nav class="sidebar__nav">
+    <a href="dashboard.html" class="sidebar__link active">◈ Dashboard</a>
+    <a href="enquiries.html" class="sidebar__link">◇ Enquiries</a>
+    <a href="subscribers.html" class="sidebar__link">◻ Subscribers</a>
+    <a href="projects.html" class="sidebar__link">◈ Projects</a>
+    <a href="settings.html" class="sidebar__link">⊞ Settings</a>
+  </nav>
+  <button class="sidebar__logout" id="logoutBtn">Sign Out</button>
+</aside>
+
+<main class="admin-main">
+  <header class="admin-header">
+    <h1 class="admin-header__title">Dashboard</h1>
+    <span class="admin-header__user" id="adminDate"></span>
+  </header>
+
+  <div class="stat-cards" id="statCards"></div>
+
+  <div class="admin-grid">
+    <section class="admin-card">
+      <div class="admin-card__header"><h2>Recent Enquiries</h2><a href="enquiries.html" class="admin-card__link">View all →</a></div>
+      <div class="admin-table-wrap"><table class="admin-table" id="recentEnquiries"><thead><tr><th>Name</th><th>Email</th><th>Service</th><th>Date</th></tr></thead><tbody></tbody></table></div>
+    </section>
+    <section class="admin-card">
+      <div class="admin-card__header"><h2>Recent Subscribers</h2><a href="subscribers.html" class="admin-card__link">View all →</a></div>
+      <div class="admin-table-wrap"><table class="admin-table" id="recentSubs"><thead><tr><th>Email</th><th>Date</th></tr></thead><tbody></tbody></table></div>
+    </section>
+  </div>
+</main>
+
+<script>
+  if (localStorage.getItem('admin_auth') !== 'true') location.href = 'login.html';
+  document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('admin_auth'); location.href = 'login.html'; });
+  document.getElementById('adminDate').textContent = new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+  function getStore(k) { try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; } }
+  const enquiries = getStore('enquiries');
+  const subscribers = getStore('subscribers');
+  const projects = 6;
+
+  document.getElementById('statCards').innerHTML = [
+    { label: 'Total Enquiries', value: enquiries.length, icon: '◇' },
+    { label: 'Subscribers', value: subscribers.length, icon: '◻' },
+    { label: 'Projects Live', value: projects, icon: '◈' },
+    { label: 'This Month', value: enquiries.filter(e => new Date(e.date).getMonth() === new Date().getMonth()).length, icon: '⊞' }
+  ].map(s => `<div class="stat-card"><span class="stat-card__icon">${s.icon}</span><span class="stat-card__val">${s.value}</span><span class="stat-card__label">${s.label}</span></div>`).join('');
+
+  const enqTbody = document.querySelector('#recentEnquiries tbody');
+  enqTbody.innerHTML = enquiries.slice(-5).reverse().map(e => `<tr><td>${e.fname} ${e.lname}</td><td>${e.email}</td><td>${e.service || '—'}</td><td>${e.date ? new Date(e.date).toLocaleDateString() : '—'}</td></tr>`).join('') || '<tr><td colspan="4" class="empty-row">No enquiries yet.</td></tr>';
+
+  const subTbody = document.querySelector('#recentSubs tbody');
+  subTbody.innerHTML = subscribers.slice(-5).reverse().map(s => `<tr><td>${s.email}</td><td>${s.date ? new Date(s.date).toLocaleDateString() : '—'}</td></tr>`).join('') || '<tr><td colspan="2" class="empty-row">No subscribers yet.</td></tr>';
+</script>
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — Shreeja Art Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/admin.css"/>
+  <style>
+    /* ── Reset & Layout ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { display: flex; min-height: 100vh; background: var(--c-bg); font-family: var(--ff); font-size: 14px; color: var(--c-ink); }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 240px; flex-shrink: 0;
+      background: var(--c-sidebar); color: #fff;
+      display: flex; flex-direction: column;
+      position: sticky; top: 0; height: 100vh;
+    }
+    .sidebar__logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 24px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .logo-mark {
+      display: flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px;
+      border: 1.5px solid var(--c-brass); color: var(--c-brass);
+      font-family: Georgia, serif; font-size: 1.1rem;
+    }
+    .logo-text { font-family: var(--ff-mono); font-size: 0.7rem; letter-spacing: 0.25em; color: #fff; }
+    .sidebar__nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; }
+    .sidebar__link {
+      display: flex; align-items: center;
+      padding: 10px 12px; border-radius: var(--r);
+      color: rgba(255,255,255,0.55); font-size: 0.88rem;
+      text-decoration: none; transition: all var(--transition);
+    }
+    .sidebar__link:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .sidebar__link.active { background: rgba(184,146,58,0.15); color: var(--c-brass-lt); }
+    .sidebar__logout {
+      padding: 16px 20px; background: none; border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.3); font-family: var(--ff);
+      font-size: 0.78rem; cursor: pointer; text-align: left;
+      transition: color var(--transition);
+    }
+    .sidebar__logout:hover { color: #fff; }
+
+    /* ── Main ── */
+    .admin-main {
+      flex: 1; overflow-y: auto;
+      padding: 36px 40px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .admin-main__inner { width: 100%; max-width: 1060px; }
+
+    /* ── Header ── */
+    .admin-header {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 8px;
+      margin-bottom: 28px;
+    }
+    .admin-header__title { font-size: 1.5rem; font-weight: 600; }
+    .admin-header__user {
+      font-family: var(--ff-mono); font-size: 0.72rem;
+      color: var(--c-muted); letter-spacing: 0.04em;
+    }
+
+    /* ── Stat Cards ── */
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--c-surface); border-radius: var(--r);
+      padding: 24px 20px; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .stat-card__icon { font-size: 1.1rem; color: var(--c-brass); margin-bottom: 4px; }
+    .stat-card__val  { font-size: 2rem; font-weight: 600; color: var(--c-ink); line-height: 1; }
+    .stat-card__label { font-size: 0.72rem; font-weight: 500; color: var(--c-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ── Two-column grid ── */
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* ── Card ── */
+    .admin-card {
+      background: var(--c-surface); border-radius: var(--r);
+      box-shadow: var(--shadow); overflow: hidden;
+    }
+    .admin-card__header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .admin-card__header h2 { font-size: 0.92rem; font-weight: 600; }
+    .admin-card__link { font-size: 0.78rem; color: var(--c-brass); text-decoration: none; }
+    .admin-card__link:hover { text-decoration: underline; }
+
+    /* ── Table ── */
+    .admin-table-wrap { overflow-x: auto; }
+    .admin-table { width: 100%; border-collapse: collapse; }
+    .admin-table th {
+      text-align: left; padding: 10px 16px;
+      font-size: 0.7rem; font-weight: 600; color: var(--c-mid);
+      text-transform: uppercase; letter-spacing: 0.07em;
+      background: var(--c-bg); border-bottom: 1px solid var(--c-border);
+      white-space: nowrap;
+    }
+    .admin-table td {
+      padding: 12px 16px; border-bottom: 1px solid var(--c-border);
+      font-size: 0.875rem; vertical-align: middle;
+    }
+    .admin-table tr:last-child td { border-bottom: none; }
+    .admin-table tr:hover td { background: #FAFAFA; }
+    .empty-row { text-align: center; color: var(--c-muted); padding: 32px !important; font-size: 0.85rem; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .stat-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .admin-main { padding: 24px 16px; }
+      .stat-cards { grid-template-columns: repeat(2, 1fr); }
+      .admin-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar">
+  <div class="sidebar__logo">
+    <span class="nav__logo-mark"><img src="../images/logo.jpeg" alt="Company Logo" class="logo" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;"></span>
+    <span class="logo-text">Shreeja Art</span>
+  </div>
+  <nav class="sidebar__nav">
+    <a href="dashboard.html"   class="sidebar__link active">◈ Dashboard</a>
+    <a href="enquiries.html"   class="sidebar__link">◇ Enquiries</a>
+    <a href="subscribers.html" class="sidebar__link">◻ Subscribers</a>
+    <a href="projects.html"    class="sidebar__link">◈ Projects</a>
+    <a href="settings.html"    class="sidebar__link">⊞ Settings</a>
+  </nav>
+  <button class="sidebar__logout" id="logoutBtn">Sign Out</button>
+</aside>
+
+<!-- ── Main ── -->
+<main class="admin-main">
+  <div class="admin-main__inner">
+
+    <header class="admin-header">
+      <h1 class="admin-header__title">Dashboard</h1>
+      <span class="admin-header__user" id="adminDate"></span>
+    </header>
+
+    <!-- Stat cards -->
+    <div class="stat-cards" id="statCards"></div>
+
+    <!-- Recent tables -->
+    <div class="admin-grid">
+
+      <section class="admin-card">
+        <div class="admin-card__header">
+          <h2>Recent Enquiries</h2>
+          <a href="enquiries.html" class="admin-card__link">View all →</a>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="recentEnquiries">
+            <thead><tr><th>Name</th><th>Email</th><th>Service</th><th>Date</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="admin-card">
+        <div class="admin-card__header">
+          <h2>Recent Subscribers</h2>
+          <a href="subscribers.html" class="admin-card__link">View all →</a>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="recentSubs">
+            <thead><tr><th>Email</th><th>Date</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+    </div><!-- /.admin-grid -->
+
+  </div><!-- /.admin-main__inner -->
+</main>
+
+<script>
+  if (localStorage.getItem('admin_auth') !== 'true') location.href = 'login.html';
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('admin_auth'); location.href = 'login.html';
+  });
+
+  document.getElementById('adminDate').textContent = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+
+  function getStore(k) {
+    try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; }
+  }
+
+  const enquiries  = getStore('enquiries');
+  const subscribers = getStore('subscribers');
+  const projects   = 6;
+
+  // Stat cards
+  document.getElementById('statCards').innerHTML = [
+    { label: 'Total Enquiries', value: enquiries.length,   icon: '◇' },
+    { label: 'Subscribers',     value: subscribers.length, icon: '◻' },
+    { label: 'Projects Live',   value: projects,           icon: '◈' },
+    { label: 'This Month',      value: enquiries.filter(e => new Date(e.date).getMonth() === new Date().getMonth()).length, icon: '⊞' }
+  ].map(s => `
+    <div class="stat-card">
+      <span class="stat-card__icon">${s.icon}</span>
+      <span class="stat-card__val">${s.value}</span>
+      <span class="stat-card__label">${s.label}</span>
+    </div>`
+  ).join('');
+
+  // Recent enquiries
+  const enqTbody = document.querySelector('#recentEnquiries tbody');
+  enqTbody.innerHTML = enquiries.slice(-5).reverse().map(e => `
+    <tr>
+      <td><strong>${e.fname || ''} ${e.lname || ''}</strong></td>
+      <td>${e.email}</td>
+      <td>${e.service || '—'}</td>
+      <td>${e.date ? new Date(e.date).toLocaleDateString() : '—'}</td>
+    </tr>`).join('')
+    || '<tr><td colspan="4" class="empty-row">No enquiries yet.</td></tr>';
+
+  // Recent subscribers
+  const subTbody = document.querySelector('#recentSubs tbody');
+  subTbody.innerHTML = subscribers.slice(-5).reverse().map(s => `
+    <tr>
+      <td>${s.email}</td>
+      <td>${s.date ? new Date(s.date).toLocaleDateString() : '—'}</td>
+    </tr>`).join('')
+    || '<tr><td colspan="2" class="empty-row">No subscribers yet.</td></tr>';
+</script>
+</body>
+</html>

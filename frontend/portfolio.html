@@ -1,0 +1,471 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Shreeja Art</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body>
+<header class="nav nav--scrolled" id="navbar">
+  <div class="nav__logo"><span class="nav__logo-mark">S</span><span class="nav__logo-text">Shreeja Art</span></div>
+  <nav class="nav__links">
+    <a href="index.html" class="nav__link">Home</a>
+    <a href="portfolio.html" class="nav__link active">Portfolio</a>
+    <a href="services.html" class="nav__link">Services</a>
+    <a href="about.html" class="nav__link">About</a>
+    <a href="contact.html" class="nav__link nav__link--cta">Book Consultation</a>
+  </nav>
+  <button class="nav__hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</header>
+
+<section class="page-hero">
+  <p class="page-hero__label">Portfolio</p>
+  <h1 class="page-hero__title">Every project,<br/><em>a singular story.</em></h1>
+</section>
+
+<section class="portfolio-section">
+  <div class="portfolio-filters" id="portfolioFilters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="Residential">Residential</button>
+    <button class="filter-btn" data-filter="Hospitality">Hospitality</button>
+    <button class="filter-btn" data-filter="Wellness">Wellness</button>
+    <button class="filter-btn" data-filter="Cultural">Cultural</button>
+  </div>
+  <div class="portfolio-grid" id="portfolioGrid"></div>
+</section>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand"><span class="nav__logo-mark">S</span><span class="nav__logo-text">Shreeja Art</span><p>Making spaces speak since 2008.</p></div>
+    <div class="footer__links"><h4>Explore</h4><a href="portfolio.html">Portfolio</a><a href="services.html">Services</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+  </div>
+  <div class="footer__bottom"><p>© 2025 Shreeja Art.</p><a href="../admin/login.html" class="footer__admin-link">Admin</a></div>
+</footer>
+<script src="js/data.js"></script>
+<script>
+  document.getElementById('hamburger')?.addEventListener('click', function() {
+    this.classList.toggle('open');
+    document.querySelector('.nav__links').classList.toggle('open');
+  });
+  function renderPortfolio(filter) {
+    const grid = document.getElementById('portfolioGrid');
+    const items = filter === 'all' ? LuminaeData.projects : LuminaeData.projects.filter(p => p.category === filter);
+    grid.innerHTML = items.map(p => `
+      <article class="portfolio-card">
+        <div class="portfolio-card__img" style="background-color:${p.color};">
+          <div class="project-card__overlay"></div>
+          <div class="project-card__tags">${p.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+        </div>
+        <div class="portfolio-card__body">
+          <span class="portfolio-card__year">${p.year}</span>
+          <h2 class="portfolio-card__title">${p.title}</h2>
+          <p class="portfolio-card__loc">${p.category} · ${p.location}</p>
+          <p class="portfolio-card__desc">${p.desc}</p>
+        </div>
+      </article>
+    `).join('');
+  }
+  renderPortfolio('all');
+  document.getElementById('portfolioFilters').querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      renderPortfolio(this.dataset.filter);
+    });
+  });
+</script>
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Shreeja Art</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --ink:       #1A1611;
+      --bone:      #F5F0E8;
+      --sand:      #C4A882;
+      --sand-deep: #8B7355;
+      --white:     #FDFCFA;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --sans:      'DM Sans', system-ui, sans-serif;
+      --mono:      'DM Mono', monospace;
+      --tr:        0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--ink); color: var(--bone); font-family: var(--sans); font-weight: 300; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    em { font-style: italic; font-family: var(--serif); }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 4rem;
+      background: rgba(26,22,17,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(196,168,130,0.15);
+    }
+    .nav__logo { display: flex; align-items: center; gap: 0.5rem; }
+    .nav__logo-mark { font-family: var(--serif); font-size: 2rem; font-weight: 600; color: var(--sand); line-height: 1; }
+    .nav__logo-text { font-family: var(--serif); font-size: 1.1rem; letter-spacing: 0.12em; color: var(--bone); }
+    .nav__links { display: flex; align-items: center; gap: 2.5rem; }
+    .nav__link { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; transition: opacity 0.2s; }
+    .nav__link:hover, .nav__link.active { opacity: 1; }
+    .nav__link--cta { background: var(--sand); color: var(--ink); padding: 0.6rem 1.4rem; opacity: 1; font-weight: 500; }
+    .nav__link--cta:hover { background: var(--sand-deep); color: var(--white); }
+    .nav__hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .nav__hamburger span { display: block; width: 24px; height: 1.5px; background: var(--bone); transition: var(--tr); }
+    .nav__hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav__hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav__hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      position: relative;
+      padding: 10rem 4rem 5rem;
+      border-bottom: 1px solid rgba(196,168,130,0.15);
+      overflow: hidden;
+    }
+    .page-hero__bg {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: url('../images/Portfoliobackground.jpg');
+      background-size: cover; background-position: center 40%;
+    }
+    .page-hero__bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(26,22,17,0.92) 50%, rgba(26,22,17,0.6) 100%);
+    }
+    .page-hero__label {
+      position: relative; z-index: 1;
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em;
+      color: var(--sand); text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .page-hero__title {
+      position: relative; z-index: 1;
+      font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300; color: var(--white); line-height: 1.15;
+    }
+    .page-hero__title em { color: var(--sand); }
+
+    /* ── PORTFOLIO SECTION ── */
+    .portfolio-section { padding: 4rem; }
+
+    /* ── FILTERS ── */
+    .portfolio-filters { display: flex; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+    .filter-btn {
+      background: transparent; border: 1px solid rgba(196,168,130,0.25);
+      color: var(--bone); font-family: var(--mono); font-size: 0.7rem;
+      letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1.2rem;
+      cursor: pointer; transition: all 0.3s; opacity: 0.65;
+    }
+    .filter-btn:hover, .filter-btn.active { background: var(--sand); border-color: var(--sand); color: var(--ink); opacity: 1; }
+
+    /* ── PORTFOLIO GRID ── */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    /* ── PORTFOLIO CARD ── */
+    .portfolio-card {
+      background: rgba(245,240,232,0.04);
+      border: 1px solid rgba(196,168,130,0.1);
+      overflow: hidden;
+      transition: all 0.4s;
+      cursor: pointer;
+    }
+    .portfolio-card:hover {
+      border-color: rgba(196,168,130,0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+    }
+
+    /* ── CARD IMAGE ── */
+    .portfolio-card__img {
+      height: 280px;
+      position: relative;
+      overflow: hidden;
+      background: var(--sand-deep);  /* fallback while image loads */
+    }
+    .portfolio-card__img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      display: block;
+    }
+    .portfolio-card:hover .portfolio-card__img img { transform: scale(1.05); }
+    .portfolio-card__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 45%, rgba(26,22,17,0.75));
+    }
+    .portfolio-card__tags {
+      position: absolute; top: 1rem; left: 1rem;
+      display: flex; gap: 0.4rem; flex-wrap: wrap; z-index: 1;
+    }
+    .portfolio-card__tags span {
+      background: rgba(26,22,17,0.75); color: var(--sand);
+      font-size: 0.62rem; letter-spacing: 0.1em; padding: 0.25rem 0.55rem;
+      text-transform: uppercase; font-family: var(--mono);
+    }
+
+    /* ── CARD BODY ── */
+    .portfolio-card__body { padding: 1.5rem; }
+    .portfolio-card__year {
+      font-family: var(--mono); font-size: 0.65rem;
+      color: var(--sand); opacity: 0.65; display: block; margin-bottom: 0.3rem;
+    }
+    .portfolio-card__title {
+      font-family: var(--serif); font-size: 1.5rem;
+      font-weight: 400; color: var(--white); margin-bottom: 0.3rem;
+    }
+    .portfolio-card__loc {
+      font-family: var(--mono); font-size: 0.65rem; color: var(--sand);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.8rem;
+    }
+    .portfolio-card__desc {
+      font-size: 0.85rem; color: var(--bone); opacity: 0.65; line-height: 1.7;
+    }
+
+    /* ── FOOTER ── */
+    .footer { background: rgba(0,0,0,0.4); border-top: 1px solid rgba(196,168,130,0.15); padding: 5rem 4rem 2rem; }
+    .footer__inner { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer__brand p { font-size: 0.85rem; color: var(--bone); opacity: 0.5; margin-top: 0.75rem; }
+    .footer__links h4 { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sand); margin-bottom: 1rem; }
+    .footer__links { display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer__links a { font-size: 0.88rem; color: var(--bone); opacity: 0.6; transition: opacity 0.2s; }
+    .footer__links a:hover { opacity: 1; color: var(--sand); }
+    .footer__bottom { border-top: 1px solid rgba(196,168,130,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer__bottom p { font-size: 0.75rem; color: var(--bone); opacity: 0.35; font-family: var(--mono); }
+    .footer__admin-link { font-family: var(--mono); font-size: 0.65rem; color: var(--bone); opacity: 0.2; transition: opacity 0.2s; }
+    .footer__admin-link:hover { opacity: 0.6; }
+
+    /* ── EMPTY STATE ── */
+    .portfolio-empty {
+      grid-column: 1 / -1; text-align: center;
+      padding: 5rem 2rem; color: var(--bone); opacity: 0.35;
+      font-family: var(--serif); font-size: 1.3rem; font-style: italic;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) { .portfolio-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 768px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav__links { display: none; position: fixed; inset: 0; background: var(--ink); flex-direction: column; justify-content: center; align-items: center; gap: 2rem; }
+      .nav__links.open { display: flex; }
+      .nav__hamburger { display: flex; }
+      .page-hero { padding: 7rem 1.5rem 3rem; }
+      .portfolio-section { padding: 3rem 1.5rem; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .footer { padding: 3rem 1.5rem 1.5rem; }
+      .footer__inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<header class="nav" id="navbar">
+  <div class="nav__logo">
+    <a href="../frontend/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+        <span class="nav__logo-mark">
+            <img src="../images/logo.jpeg"
+                 alt="Company Logo"
+                 style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;">
+        </span>
+    <span class="nav__logo-text">Shreeja Art</span>
+  </div>
+  <nav class="nav__links">
+    <a href="index.html"     class="nav__link">Home</a>
+    <a href="portfolio.html" class="nav__link active">Portfolio</a>
+    <a href="services.html"  class="nav__link">Services</a>
+    <a href="about.html"     class="nav__link">About</a>
+    <a href="contact.html"   class="nav__link nav__link--cta">Book Consultation</a>
+  </nav>
+  <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="page-hero__bg"></div>
+  <p class="page-hero__label">Portfolio</p>
+  <h1 class="page-hero__title">Every project,<br/><em>a singular story.</em></h1>
+</section>
+
+<!-- ── PORTFOLIO ── -->
+<section class="portfolio-section">
+  <div class="portfolio-filters" id="portfolioFilters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="Residential">Residential</button>
+    <button class="filter-btn" data-filter="Hospitality">Hospitality</button>
+    <button class="filter-btn" data-filter="Wellness">Wellness</button>
+    <button class="filter-btn" data-filter="Cultural">Cultural</button>
+  </div>
+  <div class="portfolio-grid" id="portfolioGrid"></div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <span class="nav__logo-mark"><img src="../images/logo.jpeg" alt="Company Logo" class="logo" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;"></span>
+      <span class="nav__logo-text">Shreeja Art</span>
+      <p>Making spaces speak since 2008.</p>
+    </div>
+    <div class="footer__links">
+      <h4>Explore</h4>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <p>© 2025 Shreeja Art.</p>
+    <a href="../admin/login.html" class="footer__admin-link">Admin</a>
+  </div>
+</footer>
+
+<script>
+  /* ── Project data with real images ── */
+  const projects = [
+    {
+      id: 1, title: "The Kova Penthouse", category: "Residential",
+      location: "Manhattan, NY", year: 2024,
+      tags: ["Minimalist","Warm","Urban"],
+      img: "../images/kovapenthouae.jpg",
+      desc: "A 4,200 sq ft penthouse transformed around a single material story: raw linen, aged brass, and travertine."
+    },
+    {
+      id: 2, title: "Salon Mercer", category: "Hospitality",
+      location: "Paris, FR", year: 2024,
+      tags: ["Art Deco","Bistro","Heritage"],
+      img: "../images/Salonmercer.jpg",
+      desc: "Revival of a 1930s salon interior — restored mosaics, velvet banquettes, and original zinc bar brought to light."
+    },
+    {
+      id: 3, title: "Nakagawa Residence", category: "Residential",
+      location: "Kyoto, JP", year: 2023,
+      tags: ["Wabi-sabi","Japandi","Zen"],
+      img: "../images/NakagawaResidence.jpg",
+      desc: "A machiya townhouse redesigned in dialogue with its 140-year-old cedar bones — modern comfort, ancient calm."
+    },
+    {
+      id: 4, title: "Atlas Wellness Club", category: "Wellness",
+      location: "Dubai, UAE", year: 2023,
+      tags: ["Spa","Biophilic","Luxury"],
+      img: "../images/AtlasWellnessClub.jpg",
+      desc: "10,000 sq ft of living walls, hammered copper, and warm stone creating a sanctuary from the city."
+    },
+    {
+      id: 5, title: "Holt & Ware Gallery", category: "Cultural",
+      location: "London, UK", year: 2023,
+      tags: ["Gallery","Industrial","Clean"],
+      img: "../images/Holt&WareGallery.jpg",
+      desc: "A Bermondsey warehouse repurposed as a contemporary art gallery with modular hanging systems and zoned light."
+    },
+    {
+      id: 6, title: "Casa Ventana", category: "Residential",
+      location: "Barcelona, ES", year: 2022,
+      tags: ["Mediterranean","Coastal","Bold"],
+      img: "../images/CasaVentana.jpg",
+      desc: "A hillside home designed around its view — arched openings, handmade tile, and terracotta volumes at every turn."
+    },
+    {
+      id: 7, title: "The Bower Hotel", category: "Hospitality",
+      location: "Copenhagen, DK", year: 2022,
+      tags: ["Scandi","Boutique","Cosy"],
+      img: "../images/TheBoweerhotel.jpg",
+      desc: "A 32-room boutique hotel rooted in Danish craft — oak, sheepskin, and handthrown ceramics throughout."
+    },
+    {
+      id: 8, title: "Verdant Spa", category: "Wellness",
+      location: "Bali, ID", year: 2022,
+      tags: ["Tropical","Biophilic","Retreat"],
+      img: "../images/VerdantSpa.jpg",
+      desc: "An open-air wellness pavilion merging Balinese craftsmanship with contemporary spa programming."
+    },
+    {
+      id: 9, title: "Archive House", category: "Cultural",
+      location: "Berlin, DE", year: 2021,
+      tags: ["Brutalist","Archive","Raw"],
+      img: "../images/Archivehouse.jpg",
+      desc: "A Cold War-era building reimagined as a cultural archive space — exposed concrete softened with linen and oak."
+    }
+  ];
+
+  /* ── Nav hamburger ── */
+  document.getElementById('hamburger').addEventListener('click', function() {
+    this.classList.toggle('open');
+    document.querySelector('.nav__links').classList.toggle('open');
+  });
+
+  /* ── Render grid ── */
+  function renderPortfolio(filter) {
+    const grid = document.getElementById('portfolioGrid');
+    const items = filter === 'all'
+      ? projects
+      : projects.filter(p => p.category === filter);
+
+    if (!items.length) {
+      grid.innerHTML = '<p class="portfolio-empty">No projects in this category yet.</p>';
+      return;
+    }
+
+    grid.innerHTML = items.map(p => `
+      <article class="portfolio-card">
+        <div class="portfolio-card__img">
+          <img
+            src="${p.img}"
+            alt="${p.title} — ${p.category} interior design by Shreeja Art"
+            loading="lazy"
+          />
+          <div class="portfolio-card__overlay"></div>
+          <div class="portfolio-card__tags">
+            ${p.tags.map(t => `<span>${t}</span>`).join('')}
+          </div>
+        </div>
+        <div class="portfolio-card__body">
+          <span class="portfolio-card__year">${p.year}</span>
+          <h2 class="portfolio-card__title">${p.title}</h2>
+          <p class="portfolio-card__loc">${p.category} · ${p.location}</p>
+          <p class="portfolio-card__desc">${p.desc}</p>
+        </div>
+      </article>`).join('');
+  }
+
+  renderPortfolio('all');
+
+  /* ── Filter buttons ── */
+  document.getElementById('portfolioFilters').querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      renderPortfolio(this.dataset.filter);
+    });
+  });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+

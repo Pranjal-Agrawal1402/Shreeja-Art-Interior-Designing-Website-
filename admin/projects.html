@@ -1,0 +1,368 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projects — Luminae Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/admin.css"/>
+</head>
+<body class="admin-body">
+<aside class="sidebar">
+  <div class="sidebar__logo"><span class="logo-mark">L</span><span class="logo-text">Luminae</span></div>
+  <nav class="sidebar__nav">
+    <a href="dashboard.html" class="sidebar__link">◈ Dashboard</a>
+    <a href="enquiries.html" class="sidebar__link">◇ Enquiries</a>
+    <a href="subscribers.html" class="sidebar__link">◻ Subscribers</a>
+    <a href="projects.html" class="sidebar__link active">◈ Projects</a>
+    <a href="settings.html" class="sidebar__link">⊞ Settings</a>
+  </nav>
+  <button class="sidebar__logout" id="logoutBtn">Sign Out</button>
+</aside>
+<main class="admin-main">
+  <header class="admin-header">
+    <h1 class="admin-header__title">Projects</h1>
+    <div class="admin-header__actions"><button class="admin-btn admin-btn--primary" id="addProjectBtn">+ Add Project</button></div>
+  </header>
+  <div id="addForm" class="admin-card" style="display:none;margin-bottom:1.5rem;">
+    <h2 style="margin-bottom:1.2rem;font-size:1rem;">New Project</h2>
+    <div class="form-grid">
+      <div class="form-group"><label>Title</label><input type="text" id="pTitle" placeholder="Project title"/></div>
+      <div class="form-group"><label>Category</label><select id="pCat"><option>Residential</option><option>Hospitality</option><option>Wellness</option><option>Cultural</option><option>Commercial</option></select></div>
+      <div class="form-group"><label>Location</label><input type="text" id="pLoc" placeholder="City, Country"/></div>
+      <div class="form-group"><label>Year</label><input type="number" id="pYear" placeholder="2025" min="2000" max="2099"/></div>
+    </div>
+    <div class="form-group"><label>Description</label><textarea id="pDesc" rows="3" placeholder="Short project description…"></textarea></div>
+    <div style="display:flex;gap:0.75rem;margin-top:1rem;">
+      <button class="admin-btn admin-btn--primary" id="saveProjectBtn">Save Project</button>
+      <button class="admin-btn admin-btn--ghost" id="cancelProjectBtn">Cancel</button>
+    </div>
+  </div>
+  <section class="admin-card">
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="projectTable">
+        <thead><tr><th>Title</th><th>Category</th><th>Location</th><th>Year</th><th>Action</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<script src="../frontend/js/data.js"></script>
+<script>
+  if (localStorage.getItem('admin_auth') !== 'true') location.href = 'login.html';
+  document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('admin_auth'); location.href = 'login.html'; });
+  let projects = JSON.parse(localStorage.getItem('admin_projects') || 'null') || LuminaeData.projects;
+  function saveProjects() { localStorage.setItem('admin_projects', JSON.stringify(projects)); }
+  function render() {
+    const tbody = document.querySelector('#projectTable tbody');
+    tbody.innerHTML = projects.map(p => `<tr><td>${p.title}</td><td>${p.category}</td><td>${p.location}</td><td>${p.year}</td><td><button class="del-btn" data-id="${p.id}">Delete</button></td></tr>`).join('');
+    tbody.querySelectorAll('.del-btn').forEach(btn => btn.addEventListener('click', () => {
+      if(confirm('Delete this project?')) { projects = projects.filter(p => p.id !== +btn.dataset.id); saveProjects(); render(); }
+    }));
+  }
+  render();
+  document.getElementById('addProjectBtn').addEventListener('click', () => { document.getElementById('addForm').style.display = 'block'; });
+  document.getElementById('cancelProjectBtn').addEventListener('click', () => { document.getElementById('addForm').style.display = 'none'; });
+  document.getElementById('saveProjectBtn').addEventListener('click', () => {
+    const t = document.getElementById('pTitle').value.trim();
+    if (!t) { alert('Title is required.'); return; }
+    projects.push({ id: Date.now(), title: t, category: document.getElementById('pCat').value, location: document.getElementById('pLoc').value||'—', year: +document.getElementById('pYear').value||new Date().getFullYear(), desc: document.getElementById('pDesc').value, tags:[], color:'#8B7355' });
+    saveProjects(); render(); document.getElementById('addForm').style.display='none';
+    ['pTitle','pLoc','pYear','pDesc'].forEach(id => document.getElementById(id).value='');
+  });
+</script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projects — Shreeja Art Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/admin.css"/>
+  <style>
+    /* ── Page-level layout fix ── */
+    body { display:flex; min-height:100vh; margin:0; background:var(--c-bg); }
+
+    .sidebar {
+      width:240px; flex-shrink:0;
+      background:var(--c-sidebar); color:#fff;
+      display:flex; flex-direction:column;
+      position:sticky; top:0; height:100vh;
+    }
+    .sidebar__logo {
+      display:flex; align-items:center; gap:10px;
+      padding:24px 20px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+    .logo-mark {
+      display:flex; align-items:center; justify-content:center;
+      width:34px; height:34px;
+      border:1.5px solid var(--c-brass); color:var(--c-brass);
+      font-family:Georgia,serif; font-size:1.1rem;
+    }
+    .logo-text {
+      font-family:var(--ff-mono); font-size:0.7rem;
+      letter-spacing:0.25em; color:#fff;
+    }
+    .sidebar__nav {
+      flex:1; padding:16px 12px;
+      display:flex; flex-direction:column; gap:4px;
+    }
+    .sidebar__link {
+      display:flex; align-items:center;
+      padding:10px 12px; border-radius:var(--r);
+      color:rgba(255,255,255,0.55); font-size:0.88rem;
+      text-decoration:none; transition:all var(--transition);
+    }
+    .sidebar__link:hover { background:rgba(255,255,255,0.06); color:#fff; }
+    .sidebar__link.active { background:rgba(184,146,58,0.15); color:var(--c-brass-lt); }
+    .sidebar__logout {
+      padding:16px 20px; background:none; border:none;
+      border-top:1px solid rgba(255,255,255,0.08);
+      color:rgba(255,255,255,0.3); font-family:var(--ff);
+      font-size:0.78rem; cursor:pointer; text-align:left;
+      transition:color var(--transition);
+    }
+    .sidebar__logout:hover { color:#fff; }
+
+    /* ── Main content area ── */
+    .admin-main {
+      flex:1; overflow-y:auto;
+      padding:36px 40px;
+      display:flex; flex-direction:column;
+      align-items:center;           /* ← centres content horizontally */
+    }
+    .admin-main__inner {
+      width:100%; max-width:900px;  /* ← constrains width & centres */
+    }
+
+    /* ── Header ── */
+    .admin-header {
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:28px;
+    }
+    .admin-header__title { font-size:1.5rem; font-weight:600; color:var(--c-ink); }
+    .admin-btn {
+      padding:9px 18px; border:none; border-radius:var(--r);
+      font-family:var(--ff); font-size:0.82rem; font-weight:500;
+      cursor:pointer; transition:background var(--transition);
+    }
+    .admin-btn--primary { background:var(--c-brass); color:#fff; }
+    .admin-btn--primary:hover { background:var(--c-brass-lt); }
+    .admin-btn--ghost {
+      background:var(--c-bg); color:var(--c-mid);
+      border:1.5px solid var(--c-border);
+    }
+    .admin-btn--ghost:hover { background:var(--c-border); color:var(--c-ink); }
+
+    /* ── Add-project form card ── */
+    .admin-card {
+      background:var(--c-surface); border-radius:var(--r);
+      padding:28px; box-shadow:var(--shadow);
+      width:100%;
+    }
+    .form-grid {
+      display:grid; grid-template-columns:1fr 1fr; gap:16px;
+      margin-bottom:16px;
+    }
+    .form-group { display:flex; flex-direction:column; gap:5px; }
+    .form-group label {
+      font-size:0.72rem; font-weight:600; color:var(--c-mid);
+      text-transform:uppercase; letter-spacing:0.07em;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding:9px 12px; border:1.5px solid var(--c-border);
+      border-radius:var(--r); font-family:var(--ff); font-size:0.9rem;
+      outline:none; transition:border-color var(--transition);
+      background:var(--c-surface); color:var(--c-ink);
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color:var(--c-brass); }
+    .form-group textarea { resize:vertical; }
+
+    /* ── Table card ── */
+    .admin-table-wrap { overflow-x:auto; }
+    .admin-table { width:100%; border-collapse:collapse; }
+    .admin-table th {
+      text-align:left; padding:11px 16px;
+      font-size:0.72rem; font-weight:600; color:var(--c-mid);
+      text-transform:uppercase; letter-spacing:0.07em;
+      background:var(--c-bg); border-bottom:1px solid var(--c-border);
+    }
+    .admin-table td {
+      padding:14px 16px; border-bottom:1px solid var(--c-border);
+      font-size:0.88rem; vertical-align:middle;
+    }
+    .admin-table tr:last-child td { border-bottom:none; }
+    .admin-table tr:hover td { background:#FAFAFA; }
+    .empty-row { text-align:center; color:var(--c-muted); padding:40px !important; }
+
+    .del-btn {
+      padding:5px 12px; background:#FEF2F2; color:#DC2626;
+      border:1.5px solid #FECACA; border-radius:var(--r);
+      font-family:var(--ff); font-size:0.78rem; cursor:pointer;
+      transition:background var(--transition);
+    }
+    .del-btn:hover { background:#FEE2E2; }
+
+    @media(max-width:768px) {
+      .sidebar { display:none; }
+      .admin-main { padding:24px 16px; }
+      .form-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar ────────────────────────────────────────────── -->
+<aside class="sidebar">
+  <div class="sidebar__logo">
+    <span class="nav__logo-mark"><img src="../images/logo.jpeg" alt="Company Logo" class="logo" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;"></span>
+    <span class="logo-text">Shreeja Art</span>
+  </div>
+  <nav class="sidebar__nav">
+    <a href="dashboard.html"    class="sidebar__link">◈ Dashboard</a>
+    <a href="enquiries.html"    class="sidebar__link">◇ Enquiries</a>
+    <a href="subscribers.html"  class="sidebar__link">◻ Subscribers</a>
+    <a href="projects.html"     class="sidebar__link active">◈ Projects</a>
+    <a href="settings.html"     class="sidebar__link">⊞ Settings</a>
+  </nav>
+  <button class="sidebar__logout" id="logoutBtn">Sign Out</button>
+</aside>
+
+<!-- ── Main ──────────────────────────────────────────────── -->
+<main class="admin-main">
+  <div class="admin-main__inner">
+
+    <!-- Header -->
+    <header class="admin-header">
+      <h1 class="admin-header__title">Projects</h1>
+      <button class="admin-btn admin-btn--primary" id="addProjectBtn">+ Add Project</button>
+    </header>
+
+    <!-- Add-project form (hidden by default) -->
+    <div id="addForm" class="admin-card" style="display:none; margin-bottom:1.5rem;">
+      <h2 style="font-size:1rem; font-weight:600; margin-bottom:1.2rem;">New Project</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="pTitle" placeholder="Project title"/>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="pCat">
+            <option>Residential</option>
+            <option>Hospitality</option>
+            <option>Wellness</option>
+            <option>Cultural</option>
+            <option>Commercial</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" id="pLoc" placeholder="City, Country"/>
+        </div>
+        <div class="form-group">
+          <label>Year</label>
+          <input type="number" id="pYear" placeholder="2025" min="2000" max="2099"/>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label>Description</label>
+        <textarea id="pDesc" rows="3" placeholder="Short project description…"></textarea>
+      </div>
+      <div style="display:flex; gap:0.75rem;">
+        <button class="admin-btn admin-btn--primary" id="saveProjectBtn">Save Project</button>
+        <button class="admin-btn admin-btn--ghost"   id="cancelProjectBtn">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Projects table -->
+    <section class="admin-card">
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="projectTable">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Location</th>
+              <th>Year</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div><!-- /.admin-main__inner -->
+</main>
+
+<script src="../frontend/js/data.js"></script>
+<script>
+  if (localStorage.getItem('admin_auth') !== 'true') location.href = 'login.html';
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('admin_auth'); location.href = 'login.html';
+  });
+
+  let projects = JSON.parse(localStorage.getItem('admin_projects') || 'null') || LuminaeData.projects;
+
+  function saveProjects() { localStorage.setItem('admin_projects', JSON.stringify(projects)); }
+
+  function render() {
+    const tbody = document.querySelector('#projectTable tbody');
+    tbody.innerHTML = projects.length
+      ? projects.map(p => `
+          <tr>
+            <td><strong>${p.title}</strong></td>
+            <td>${p.category}</td>
+            <td>${p.location}</td>
+            <td>${p.year}</td>
+            <td><button class="del-btn" data-id="${p.id}">Delete</button></td>
+          </tr>`).join('')
+      : '<tr><td colspan="5" class="empty-row">No projects yet.</td></tr>';
+
+    tbody.querySelectorAll('.del-btn').forEach(btn =>
+      btn.addEventListener('click', () => {
+        if (confirm('Delete this project?')) {
+          projects = projects.filter(p => p.id !== +btn.dataset.id);
+          saveProjects(); render();
+        }
+      })
+    );
+  }
+
+  render();
+
+  document.getElementById('addProjectBtn').addEventListener('click', () => {
+    document.getElementById('addForm').style.display = 'block';
+  });
+  document.getElementById('cancelProjectBtn').addEventListener('click', () => {
+    document.getElementById('addForm').style.display = 'none';
+  });
+  document.getElementById('saveProjectBtn').addEventListener('click', () => {
+    const t = document.getElementById('pTitle').value.trim();
+    if (!t) { alert('Title is required.'); return; }
+    projects.push({
+      id: Date.now(),
+      title: t,
+      category: document.getElementById('pCat').value,
+      location: document.getElementById('pLoc').value || '—',
+      year: +document.getElementById('pYear').value || new Date().getFullYear(),
+      desc: document.getElementById('pDesc').value,
+      tags: [], color: '#8B7355'
+    });
+    saveProjects(); render();
+    document.getElementById('addForm').style.display = 'none';
+    ['pTitle','pLoc','pYear','pDesc'].forEach(id => document.getElementById(id).value = '');
+  });
+</script>
+</body>
+</html>

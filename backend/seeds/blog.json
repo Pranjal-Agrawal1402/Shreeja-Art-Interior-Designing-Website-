@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "title": "Why every room needs one unfinished thing",
+    "category": "Design Theory",
+    "date": "May 2025",
+    "excerpt": "Perfectly resolved rooms feel like showrooms. A deliberate incompleteness brings life to a space.",
+    "content": "Full article content goes here...",
+    "readTime": "5 min",
+    "published": true,
+    "createdAt": "2025-05-12T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "title": "The material mood board: choosing stone vs tile",
+    "category": "Materials",
+    "date": "April 2025",
+    "excerpt": "Stone and tile are rarely interchangeable decisions. Here's how we think through the trade-offs.",
+    "content": "Full article content goes here...",
+    "readTime": "7 min",
+    "published": true,
+    "createdAt": "2025-04-18T10:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "title": "Lighting layers: how we light a room in three passes",
+    "category": "Lighting Design",
+    "date": "March 2025",
+    "excerpt": "Ambient, task, accent. The three-pass method and why most rooms only get the first one right.",
+    "content": "Full article content goes here...",
+    "readTime": "6 min",
+    "published": true,
+    "createdAt": "2025-03-22T10:00:00.000Z"
+  }
+]

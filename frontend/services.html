@@ -1,0 +1,450 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services — Shreeja Art</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body>
+<header class="nav nav--scrolled" id="navbar">
+  <div class="nav__logo"><span class="nav__logo-mark">S</span><span class="nav__logo-text">Shreeja Art</span></div>
+  <nav class="nav__links">
+    <a href="index.html" class="nav__link">Home</a>
+    <a href="portfolio.html" class="nav__link">Portfolio</a>
+    <a href="services.html" class="nav__link active">Services</a>
+    <a href="about.html" class="nav__link">About</a>
+    <a href="contact.html" class="nav__link nav__link--cta">Book Consultation</a>
+  </nav>
+  <button class="nav__hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</header>
+<section class="page-hero">
+  <p class="page-hero__label">Services</p>
+  <h1 class="page-hero__title">What we offer,<br/><em>and how we work.</em></h1>
+</section>
+<section class="services-section">
+  <div class="services-grid" id="servicesGrid"></div>
+</section>
+<section class="services-cta">
+  <div class="services-cta__inner">
+    <h2>Ready to begin?</h2>
+    <p>Every engagement starts with a conversation. Tell us about your space.</p>
+    <a href="contact.html" class="btn btn--primary">Book a Consultation</a>
+  </div>
+</section>
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand"><span class="nav__logo-mark">S</span><span class="nav__logo-text">Shreeja Art</span></div>
+    <div class="footer__links"><h4>Explore</h4><a href="portfolio.html">Portfolio</a><a href="contact.html">Contact</a></div>
+  </div>
+  <div class="footer__bottom"><p>© 2025 Shreeja Art.</p><a href="../admin/login.html" class="footer__admin-link">Admin</a></div>
+</footer>
+<script src="js/data.js"></script>
+<script>
+  document.getElementById('hamburger')?.addEventListener('click', function() { this.classList.toggle('open'); document.querySelector('.nav__links').classList.toggle('open'); });
+  document.getElementById('servicesGrid').innerHTML = LuminaeData.services.map(s => `
+    <div class="service-card">
+      <div class="service-card__icon">${s.icon}</div>
+      <h3 class="service-card__name">${s.name}</h3>
+      <p class="service-card__desc">${s.desc}</p>
+      <span class="service-card__price">${s.price}</span>
+    </div>
+  `).join('');
+</script>
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services — Shreeja Art</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink:       #1A1611;
+      --bone:      #F5F0E8;
+      --sand:      #C4A882;
+      --sand-deep: #8B7355;
+      --white:     #FDFCFA;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --sans:      'DM Sans', system-ui, sans-serif;
+      --mono:      'DM Mono', monospace;
+      --tr:        0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--ink); color: var(--bone); font-family: var(--sans); font-weight: 300; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    em { font-style: italic; font-family: var(--serif); }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 4rem;
+      background: rgba(26,22,17,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(196,168,130,0.15);
+    }
+    .nav__logo { display: flex; align-items: center; gap: 0.5rem; }
+    .nav__logo-mark { font-family: var(--serif); font-size: 2rem; font-weight: 600; color: var(--sand); line-height: 1; }
+    .nav__logo-text { font-family: var(--serif); font-size: 1.1rem; letter-spacing: 0.12em; }
+    .nav__links { display: flex; align-items: center; gap: 2.5rem; }
+    .nav__link { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; transition: opacity 0.2s; }
+    .nav__link:hover, .nav__link.active { opacity: 1; }
+    .nav__link--cta { background: var(--sand); color: var(--ink); padding: 0.6rem 1.4rem; opacity: 1; font-weight: 500; }
+    .nav__link--cta:hover { background: var(--sand-deep); color: var(--white); }
+    .nav__hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .nav__hamburger span { display: block; width: 24px; height: 1.5px; background: var(--bone); transition: var(--tr); }
+    .nav__hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav__hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav__hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      position: relative; padding: 10rem 4rem 5rem;
+      border-bottom: 1px solid rgba(196,168,130,0.15); overflow: hidden;
+    }
+    .page-hero__bg {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: url('../images/servicebackground.jpg');
+      background-size: cover; background-position: center 30%;
+    }
+    .page-hero__bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(26,22,17,0.92) 45%, rgba(26,22,17,0.55) 100%);
+    }
+    .page-hero__label {
+      position: relative; z-index: 1;
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em;
+      color: var(--sand); text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .page-hero__title {
+      position: relative; z-index: 1;
+      font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300; color: var(--white); line-height: 1.15;
+    }
+    .page-hero__title em { color: var(--sand); }
+
+    /* ── SERVICES SECTION ── */
+    .services-section { padding: 6rem 4rem; }
+
+    /* ── SERVICES GRID ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;                       /* tight gap creates a gallery-wall feel */
+      background: rgba(196,168,130,0.08);
+    }
+
+    /* ── SERVICE CARD ── */
+    .service-card {
+      background: rgba(26,22,17,0.9);
+      overflow: hidden;
+      transition: all 0.4s;
+      position: relative;
+    }
+    .service-card:hover { background: rgba(26,22,17,0.7); }
+
+    /* Image at the top of each card */
+    .service-card__img {
+      height: 220px;
+      overflow: hidden;
+      position: relative;
+      background: var(--sand-deep);
+    }
+    .service-card__img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      display: block;
+    }
+    .service-card:hover .service-card__img img { transform: scale(1.06); }
+    .service-card__img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(26,22,17,0.6));
+    }
+
+    /* Card body */
+    .service-card__body { padding: 1.8rem; }
+    .service-card__icon {
+      font-size: 1.3rem; color: var(--sand);
+      margin-bottom: 0.75rem; display: block;
+    }
+    .service-card__name {
+      font-family: var(--serif); font-size: 1.3rem;
+      font-weight: 400; color: var(--white); margin-bottom: 0.65rem;
+    }
+    .service-card__desc {
+      font-size: 0.85rem; color: var(--bone);
+      opacity: 0.65; line-height: 1.7; margin-bottom: 1.2rem;
+    }
+    .service-card__price {
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--sand); letter-spacing: 0.1em;
+      display: inline-block;
+      border-top: 1px solid rgba(196,168,130,0.25);
+      padding-top: 0.75rem; width: 100%;
+    }
+
+    /* ── APPROACH STRIP (image + text row between grid and CTA) ── */
+    .approach {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 500px;
+    }
+    .approach__img {
+      position: relative; overflow: hidden;
+      background: var(--sand-deep);
+    }
+    .approach__img img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.6s ease;
+    }
+    .approach__img:hover img { transform: scale(1.03); }
+    .approach__content {
+      background: var(--sand);
+      display: flex; flex-direction: column;
+      justify-content: center; padding: 5rem;
+    }
+    .approach__label {
+      font-family: var(--mono); font-size: 0.65rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(26,22,17,0.5); margin-bottom: 1rem;
+    }
+    .approach__title {
+      font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 300; color: var(--ink); line-height: 1.2; margin-bottom: 1.5rem;
+    }
+    .approach__title em { font-style: italic; }
+    .approach__text {
+      font-size: 0.95rem; color: rgba(26,22,17,0.7);
+      line-height: 1.8; max-width: 420px;
+    }
+
+    /* ── CTA ── */
+    .services-cta {
+      padding: 7rem 4rem; text-align: center;
+      background: rgba(245,240,232,0.03);
+      border-top: 1px solid rgba(196,168,130,0.15);
+    }
+    .services-cta__inner h2 {
+      font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300; color: var(--white); margin-bottom: 0.75rem;
+    }
+    .services-cta__inner p {
+      color: var(--bone); opacity: 0.6; margin-bottom: 2rem; font-size: 0.95rem;
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.85rem 2.2rem;
+      font-family: var(--sans); font-size: 0.8rem;
+      letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+      cursor: pointer; transition: var(--tr); border: none;
+    }
+    .btn--primary { background: var(--sand); color: var(--ink); }
+    .btn--primary:hover { background: var(--sand-deep); color: var(--white); }
+
+    /* ── FOOTER ── */
+    .footer { background: rgba(0,0,0,0.4); border-top: 1px solid rgba(196,168,130,0.15); padding: 4rem 4rem 2rem; }
+    .footer__inner { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer__links h4 { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sand); margin-bottom: 1rem; }
+    .footer__links { display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer__links a { font-size: 0.88rem; opacity: 0.6; transition: opacity 0.2s; }
+    .footer__links a:hover { opacity: 1; color: var(--sand); }
+    .footer__bottom { border-top: 1px solid rgba(196,168,130,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer__bottom p { font-size: 0.75rem; opacity: 0.35; font-family: var(--mono); }
+    .footer__admin-link { font-family: var(--mono); font-size: 0.65rem; opacity: 0.2; transition: opacity 0.2s; }
+    .footer__admin-link:hover { opacity: 0.6; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .approach { grid-template-columns: 1fr; min-height: auto; }
+      .approach__img { height: 320px; }
+      .approach__content { padding: 3rem; }
+    }
+    @media (max-width: 768px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav__links { display: none; position: fixed; inset: 0; background: var(--ink); flex-direction: column; justify-content: center; align-items: center; gap: 2rem; }
+      .nav__links.open { display: flex; }
+      .nav__hamburger { display: flex; }
+      .page-hero { padding: 7rem 1.5rem 3rem; }
+      .services-section { padding: 4rem 1.5rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .services-cta { padding: 4rem 1.5rem; }
+      .footer { padding: 3rem 1.5rem 1.5rem; }
+      .footer__inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<header class="nav" id="navbar">
+  <div class="nav__logo">
+    <a href="../frontend/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+        <span class="nav__logo-mark">
+            <img src="../images/logo.jpeg"
+                 alt="Company Logo"
+                 style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;">
+        </span>
+    <span class="nav__logo-text">Shreeja Art</span>
+  </div>
+  <nav class="nav__links">
+    <a href="index.html"     class="nav__link">Home</a>
+    <a href="portfolio.html" class="nav__link">Portfolio</a>
+    <a href="services.html"  class="nav__link active">Services</a>
+    <a href="about.html"     class="nav__link">About</a>
+    <a href="contact.html"   class="nav__link nav__link--cta">Book Consultation</a>
+  </nav>
+  <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="page-hero__bg"></div>
+  <p class="page-hero__label">Services</p>
+  <h1 class="page-hero__title">What we offer,<br/><em>and how we work.</em></h1>
+</section>
+
+<!-- ── SERVICES GRID ── -->
+<section class="services-section">
+  <div class="services-grid" id="servicesGrid"></div>
+</section>
+
+<!-- ── APPROACH STRIP ── -->
+<div class="approach">
+  <div class="approach__img">
+    <img
+      src="../images/approach.jpg"
+      alt="Shreeja Art designer reviewing material swatches and fabric samples"
+      loading="lazy"
+    />
+  </div>
+  <div class="approach__content">
+    <p class="approach__label">Our Philosophy</p>
+    <h2 class="approach__title">Every room is<br/><em>a conversation</em><br/>in progress.</h2>
+    <p class="approach__text">
+      We don't arrive with a style. We arrive with questions. What do you love about the space you're in now? What do you wish you could change? What does home feel like to you, at its best?
+      <br/><br/>
+      Every service we offer is built around that conversation — and every decision we make leads back to it.
+    </p>
+  </div>
+</div>
+
+<!-- ── CTA ── -->
+<section class="services-cta">
+  <div class="services-cta__inner">
+    <h2>Ready to begin?</h2>
+    <p>Every engagement starts with a conversation. Tell us about your space.</p>
+    <a href="contact.html" class="btn btn--primary">Book a Consultation</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <span class="nav__logo-mark"><img src="../images/logo.jpeg" alt="Company Logo" class="logo" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;"></span>
+      <span class="nav__logo-text">Shreeja Art</span>
+    </div>
+    <div class="footer__links">
+      <h4>Explore</h4>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <p>© 2025 Shreeja Art.</p>
+    <a href="../admin/login.html" class="footer__admin-link">Admin</a>
+  </div>
+</footer>
+
+<script>
+  /* ── Services data with curated images ── */
+  const services = [
+    {
+      icon: "◈",
+      name: "Full Interior Design",
+      desc: "End-to-end design: concept through construction administration and final styling.",
+      price: "From $45,000",
+      img: "../images/fullinteriordesign.jpg",
+      imgAlt: "Fully designed modern living room with warm tones and bespoke furniture"
+    },
+    {
+      icon: "◇",
+      name: "Design Consultation",
+      desc: "Two-hour focused sessions — direction, colour, layout, and procurement guidance.",
+      price: "From $750",
+      img: "../images/designconsultation.jpg",
+      imgAlt: "Interior designer presenting mood board and colour swatches to client"
+    },
+    {
+      icon: "⊞",
+      name: "Space Planning",
+      desc: "Functional analysis and floor plan optimisation before any design begins.",
+      price: "From $3,500",
+      img: "../images/spaceplanning.jpg",
+      imgAlt: "Architectural floor plan drawings spread on a light table"
+    },
+    {
+      icon: "◻",
+      name: "FF&E Procurement",
+      desc: "Full furniture, fixture, and equipment sourcing with trade access and logistics.",
+      price: "From $8,000",
+      img: "../images/FF&E.jpg",
+      imgAlt: "Curated selection of premium furniture pieces in a showroom setting"
+    },
+    {
+      icon: "◈",
+      name: "3D Visualization",
+      desc: "Photorealistic renders and walkthroughs so you can see your space before it's built.",
+      price: "From $2,200",
+      img: "../images/3DVisualizat.jpg",
+      imgAlt: "High-quality 3D render of a luxury bedroom interior design concept"
+    },
+    {
+      icon: "◇",
+      name: "Bespoke Furniture",
+      desc: "Custom joinery and furniture design, produced with our network of master craftspeople.",
+      price: "From $5,000",
+      img: "../images/Bespoke.jpg",
+      imgAlt: "Craftsperson working on bespoke wooden furniture in a workshop"
+    }
+  ];
+
+  /* ── Render cards ── */
+  document.getElementById('servicesGrid').innerHTML = services.map(s => `
+    <div class="service-card">
+      <div class="service-card__img">
+        <img
+          src="${s.img}"
+          alt="${s.imgAlt}"
+          loading="lazy"
+        />
+      </div>
+      <div class="service-card__body">
+        <span class="service-card__icon">${s.icon}</span>
+        <h3 class="service-card__name">${s.name}</h3>
+        <p class="service-card__desc">${s.desc}</p>
+        <span class="service-card__price">${s.price}</span>
+      </div>
+    </div>`).join('');
+
+  /* ── Hamburger ── */
+  document.getElementById('hamburger').addEventListener('click', function() {
+    this.classList.toggle('open');
+    document.querySelector('.nav__links').classList.toggle('open');
+  });
+</script>
+</body>
+</html>

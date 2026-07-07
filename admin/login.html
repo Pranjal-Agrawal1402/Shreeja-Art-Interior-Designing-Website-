@@ -1,0 +1,255 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login — Luminae</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/admin.css"/>
+</head>
+<body class="login-body">
+  <div class="login-card">
+    <div class="login-logo"><span class="logo-mark">L</span><span class="logo-text">Luminae Admin</span></div>
+    <h1 class="login-title">Sign In</h1>
+    <p class="login-sub">Studio dashboard access</p>
+    <form id="loginForm" class="login-form" novalidate>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="admin" autocomplete="username"/>
+        <span class="form-error" id="usernameErr"></span>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password"/>
+        <span class="form-error" id="passwordErr"></span>
+      </div>
+      <span class="form-error" id="loginErr"></span>
+      <button type="submit" class="admin-btn admin-btn--primary">Sign In</button>
+    </form>
+    <p class="login-hint">Demo credentials: admin / luminae2025</p>
+  </div>
+<script>
+  if (localStorage.getItem('admin_auth') === 'true') location.href = 'dashboard.html';
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value;
+    document.getElementById('usernameErr').textContent = u ? '' : 'Username is required.';
+    document.getElementById('passwordErr').textContent = p ? '' : 'Password is required.';
+    if (!u || !p) return;
+    if (u === 'admin' && p === 'luminae2025') {
+      localStorage.setItem('admin_auth', 'true');
+      location.href = 'dashboard.html';
+    } else {
+      document.getElementById('loginErr').textContent = 'Invalid credentials. Try admin / luminae2025';
+    }
+  });
+</script>
+</body>
+</html> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login — Shreeja Art</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1A1814 0%, #2A2520 50%, #1A1814 100%);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 14px;
+      padding: 20px;
+    }
+
+    /* ── Card ── */
+    .login-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 48px 44px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    /* ── Logo ── */
+    .login-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .logo-mark {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; flex-shrink: 0;
+      border: 1.5px solid #B8923A;
+      color: #B8923A;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.2rem; font-weight: 600;
+    }
+    .logo-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      color: #111827;
+      text-transform: uppercase;
+    }
+
+    /* ── Heading ── */
+    .login-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.8rem; font-weight: 400;
+      color: #111827;
+      margin-bottom: 4px;
+    }
+    .login-sub {
+      font-size: 0.82rem;
+      color: #9CA3AF;
+      margin-bottom: 28px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Form ── */
+    .login-form { display: flex; flex-direction: column; gap: 18px; }
+
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label {
+      font-size: 0.72rem; font-weight: 500;
+      color: #6B7280;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .form-group input {
+      padding: 11px 14px;
+      border: 1.5px solid #E5E7EB;
+      border-radius: 8px;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 0.95rem;
+      color: #111827;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .form-group input:focus { border-color: #B8923A; }
+    .form-group input::placeholder { color: #D1D5DB; }
+
+    /* ── Errors ── */
+    .form-error {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: #DC2626;
+      min-height: 16px;
+      letter-spacing: 0.03em;
+    }
+    #loginErr {
+      text-align: center;
+      margin-top: -6px;
+    }
+
+    /* ── Submit button ── */
+    .login-btn {
+      width: 100%;
+      padding: 13px;
+      margin-top: 4px;
+      background: #B8923A;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+    .login-btn:hover  { background: #D4AB5A; }
+    .login-btn:active { transform: scale(0.99); }
+
+    /* ── Hint ── */
+    .login-hint {
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: #9CA3AF;
+      margin-top: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Subtle background detail ── */
+    body::before {
+      content: 'L';
+      position: fixed;
+      bottom: -80px; right: -40px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 320px; font-weight: 300;
+      color: rgba(184,146,58,0.04);
+      pointer-events: none; user-select: none;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-card">
+
+    <div class="login-logo">
+      <span class="nav__logo-mark"><img src="../images/logo.jpeg" alt="Company Logo" class="logo" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;"></span>
+    <span class="logo-text">Shreeja Art</span>
+    </div>
+
+    <h1 class="login-title">Sign In</h1>
+    <p class="login-sub">Studio dashboard access</p>
+
+    <form id="loginForm" class="login-form" novalidate>
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="admin" autocomplete="username"/>
+        <span class="form-error" id="usernameErr"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password"/>
+        <span class="form-error" id="passwordErr"></span>
+      </div>
+
+      <span class="form-error" id="loginErr"></span>
+
+      <button type="submit" class="login-btn">Sign In</button>
+
+    </form>
+
+    <p class="login-hint">Demo credentials: admin / luminae2025</p>
+
+  </div>
+
+<script>
+  if (localStorage.getItem('admin_auth') === 'true') location.href = 'dashboard.html';
+
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value;
+
+    document.getElementById('usernameErr').textContent = u ? '' : 'Username is required.';
+    document.getElementById('passwordErr').textContent = p ? '' : 'Password is required.';
+    document.getElementById('loginErr').textContent = '';
+    if (!u || !p) return;
+
+    if (u === 'admin' && p === 'luminae2025') {
+      localStorage.setItem('admin_auth', 'true');
+      location.href = 'dashboard.html';
+    } else {
+      document.getElementById('loginErr').textContent = 'Invalid credentials. Try admin / luminae2025';
+    }
+  });
+</script>
+</body>
+</html>

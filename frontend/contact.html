@@ -1,0 +1,594 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — Shreeja Art</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body>
+<header class="nav nav--scrolled" id="navbar">
+  <div class="nav__logo"><span class="nav__logo-mark">S</span><span class="nav__logo-text">Shreeja Art</span></div>
+  <nav class="nav__links">
+    <a href="index.html" class="nav__link">Home</a>
+    <a href="portfolio.html" class="nav__link">Portfolio</a>
+    <a href="services.html" class="nav__link">Services</a>
+    <a href="about.html" class="nav__link">About</a>
+    <a href="contact.html" class="nav__link active nav__link--cta">Book Consultation</a>
+  </nav>
+  <button class="nav__hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</header>
+<section class="page-hero">
+  <p class="page-hero__label">Contact</p>
+  <h1 class="page-hero__title">Every space begins<br/><em>with a conversation.</em></h1>
+</section>
+<section class="contact-section">
+  <div class="contact-grid">
+    <div class="contact-info">
+      <p class="section-label">Studio</p>
+      <div class="contact-info__item"><span class="contact-info__label">Address</span><p>12 Amber Lane, Design Quarter<br/>New York, NY 10014</p></div>
+      <div class="contact-info__item"><span class="contact-info__label">Email</span><p>hello@luminae.studio</p></div>
+      <div class="contact-info__item"><span class="contact-info__label">Phone</span><p>+1 (212) 555-0189</p></div>
+      <div class="contact-info__item"><span class="contact-info__label">Hours</span><p>Mon–Fri, 9am–6pm EST</p></div>
+    </div>
+    <div class="contact-form-wrap">
+      <p class="section-label">Send a Message</p>
+      <form id="contactForm" class="contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">First Name *</label>
+            <input type="text" id="fname" name="fname" required placeholder="Your first name"/>
+            <span class="form-error" id="fnameErr"></span>
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name *</label>
+            <input type="text" id="lname" name="lname" required placeholder="Your last name"/>
+            <span class="form-error" id="lnameErr"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required placeholder="your@email.com"/>
+          <span class="form-error" id="emailErr"></span>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 (000) 000-0000"/>
+        </div>
+        <div class="form-group">
+          <label for="service">Service of Interest</label>
+          <select id="service" name="service">
+            <option value="">Select a service</option>
+            <option>Full Interior Design</option>
+            <option>Design Consultation</option>
+            <option>Space Planning</option>
+            <option>FF&E Procurement</option>
+            <option>3D Visualization</option>
+            <option>Bespoke Furniture</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="budget">Project Budget</label>
+          <select id="budget" name="budget">
+            <option value="">Select budget range</option>
+            <option>Under $10,000</option>
+            <option>$10,000 – $50,000</option>
+            <option>$50,000 – $150,000</option>
+            <option>$150,000+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Tell us about your project *</label>
+          <textarea id="message" name="message" rows="5" required placeholder="Describe your space, timeline, and what you're hoping to achieve..."></textarea>
+          <span class="form-error" id="messageErr"></span>
+        </div>
+        <button type="submit" class="btn btn--primary" id="submitBtn">Send Message</button>
+        <p class="form-success" id="formSuccess"></p>
+      </form>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand"><span class="nav__logo-mark">S</span><span class="nav__logo-text">Shreeja Art</span></div>
+    <div class="footer__links"><h4>Explore</h4><a href="portfolio.html">Portfolio</a><a href="services.html">Services</a></div>
+  </div>
+  <div class="footer__bottom"><p>© 2026 Shreeja Art.</p><a href="../admin/login.html" class="footer__admin-link">Admin</a></div>
+</footer>
+<script src="js/data.js"></script>
+<script>
+  document.getElementById('hamburger')?.addEventListener('click', function() { this.classList.toggle('open'); document.querySelector('.nav__links').classList.toggle('open'); });
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+    const fields = [
+      { id: 'fname', err: 'fnameErr', msg: 'First name is required.' },
+      { id: 'lname', err: 'lnameErr', msg: 'Last name is required.' },
+      { id: 'message', err: 'messageErr', msg: 'Please describe your project.' }
+    ];
+    fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const errEl = document.getElementById(f.err);
+      if (!el.value.trim()) { errEl.textContent = f.msg; valid = false; } else { errEl.textContent = ''; }
+    });
+    const emailEl = document.getElementById('email');
+    const emailErr = document.getElementById('emailErr');
+    if (!emailEl.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { emailErr.textContent = 'Enter a valid email address.'; valid = false; } else { emailErr.textContent = ''; }
+    if (!valid) return;
+    const data = { fname: document.getElementById('fname').value, lname: document.getElementById('lname').value, email: emailEl.value, phone: document.getElementById('phone').value, service: document.getElementById('service').value, budget: document.getElementById('budget').value, message: document.getElementById('message').value };
+    Storage.push('enquiries', data);
+    document.getElementById('formSuccess').textContent = '✓ Message received. We\'ll be in touch within one business day.';
+    document.getElementById('formSuccess').style.color = '#C4A882';
+    form.reset();
+  });
+</script>
+</body>
+</html> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — Shreeja Art</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink:       #1A1611;
+      --bone:      #F5F0E8;
+      --sand:      #C4A882;
+      --sand-deep: #8B7355;
+      --white:     #FDFCFA;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --sans:      'DM Sans', system-ui, sans-serif;
+      --mono:      'DM Mono', monospace;
+      --tr:        0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--ink); color: var(--bone); font-family: var(--sans); font-weight: 300; line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    em { font-style: italic; font-family: var(--serif); }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 4rem;
+      background: rgba(26,22,17,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(196,168,130,0.15);
+    }
+    .nav__logo { display: flex; align-items: center; gap: 0.5rem; }
+    .nav__logo-mark { font-family: var(--serif); font-size: 2rem; font-weight: 600; color: var(--sand); line-height: 1; }
+    .nav__logo-text { font-family: var(--serif); font-size: 1.1rem; letter-spacing: 0.12em; }
+    .nav__links { display: flex; align-items: center; gap: 2.5rem; }
+    .nav__link { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; transition: opacity 0.2s; }
+    .nav__link:hover, .nav__link.active { opacity: 1; }
+    .nav__link--cta { background: var(--sand); color: var(--ink); padding: 0.6rem 1.4rem; opacity: 1; font-weight: 500; }
+    .nav__link--cta:hover { background: var(--sand-deep); color: var(--white); }
+    .nav__hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .nav__hamburger span { display: block; width: 24px; height: 1.5px; background: var(--bone); transition: var(--tr); }
+    .nav__hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav__hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav__hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      position: relative; min-height: 52vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 10rem 4rem 5rem;
+      border-bottom: 1px solid rgba(196,168,130,0.15); overflow: hidden;
+    }
+    .page-hero__bg {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: url('../images/contatctbackground.jpg');
+      background-size: cover; background-position: center 40%;
+    }
+    .page-hero__bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(
+        to right,
+        rgba(26,22,17,0.94) 40%,
+        rgba(26,22,17,0.55) 100%
+      );
+    }
+    .page-hero__label {
+      position: relative; z-index: 1;
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em;
+      color: var(--sand); text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .page-hero__title {
+      position: relative; z-index: 1;
+      font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300; color: var(--white); line-height: 1.15;
+    }
+    .page-hero__title em { color: var(--sand); }
+
+    /* ── CONTACT SECTION ── */
+    .contact-section { padding: 6rem 4rem; }
+
+    /* 3-column layout: info | image | form */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.6fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    /* ── CONTACT INFO ── */
+    .contact-info { padding-top: 0.5rem; }
+    .section-label {
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.2em;
+      color: var(--sand); text-transform: uppercase;
+      margin-bottom: 2rem; display: block;
+    }
+    .contact-info__item { margin-bottom: 2rem; }
+    .contact-info__label {
+      font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em;
+      color: var(--sand); text-transform: uppercase; display: block; margin-bottom: 0.4rem;
+    }
+    .contact-info__item p { color: var(--bone); opacity: 0.7; font-size: 0.9rem; line-height: 1.7; }
+
+    /* ── STUDIO IMAGE (middle column) ── */
+    .contact-studio-img {
+      position: sticky; top: 7rem;
+      border-radius: 2px; overflow: hidden;
+      aspect-ratio: 3 / 4;
+      background: var(--sand-deep);
+    }
+    .contact-studio-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.7s ease;
+    }
+    .contact-studio-img:hover img { transform: scale(1.03); }
+    .contact-studio-img::after {
+      content: ''; position: absolute; inset: 0;
+      border: 1px solid rgba(196,168,130,0.2);
+      pointer-events: none;
+    }
+
+    /* Small caption under studio image */
+    .contact-studio-caption {
+      font-family: var(--mono); font-size: 0.62rem;
+      letter-spacing: 0.1em; color: var(--sand);
+      opacity: 0.5; margin-top: 0.75rem; text-align: center;
+      text-transform: uppercase;
+    }
+
+    /* ── CONTACT FORM ── */
+    .contact-form-wrap { padding-top: 0.5rem; }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label {
+      font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em;
+      color: var(--sand); text-transform: uppercase;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: rgba(245,240,232,0.05);
+      border: 1px solid rgba(196,168,130,0.2);
+      color: var(--bone); font-family: var(--sans); font-size: 0.9rem;
+      padding: 0.8rem 1rem; outline: none; transition: border-color 0.3s;
+      appearance: none; -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--sand); }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(245,240,232,0.25); }
+    .form-group select option { background: #1A1611; }
+    .form-error { font-family: var(--mono); font-size: 0.65rem; color: #e07070; }
+    .form-success { font-family: var(--mono); font-size: 0.75rem; margin-top: 0.5rem; min-height: 1.2rem; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.85rem 2rem; font-family: var(--sans); font-size: 0.8rem;
+      letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+      cursor: pointer; transition: var(--tr); border: none;
+    }
+    .btn--primary { background: var(--sand); color: var(--ink); }
+    .btn--primary:hover { background: var(--sand-deep); color: var(--white); }
+
+    /* ── BOTTOM IMAGE STRIP ── */
+    .contact-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 260px;
+      gap: 6px;
+      margin-top: 6rem;
+    }
+    .contact-strip__img {
+      overflow: hidden; position: relative;
+      background: var(--sand-deep);
+    }
+    .contact-strip__img img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.6s ease;
+      filter: brightness(0.75);
+    }
+    .contact-strip__img:hover img {
+      transform: scale(1.06);
+      filter: brightness(0.9);
+    }
+
+    /* ── FOOTER ── */
+    .footer { background: rgba(0,0,0,0.4); border-top: 1px solid rgba(196,168,130,0.15); padding: 4rem 4rem 2rem; }
+    .footer__inner { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer__links h4 { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sand); margin-bottom: 1rem; }
+    .footer__links { display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer__links a { font-size: 0.88rem; opacity: 0.6; transition: opacity 0.2s; }
+    .footer__links a:hover { opacity: 1; color: var(--sand); }
+    .footer__bottom { border-top: 1px solid rgba(196,168,130,0.1); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer__bottom p { font-size: 0.75rem; opacity: 0.35; font-family: var(--mono); }
+    .footer__admin-link { font-family: var(--mono); font-size: 0.65rem; opacity: 0.2; transition: opacity 0.2s; }
+    .footer__admin-link:hover { opacity: 0.6; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1200px) {
+      .contact-grid { grid-template-columns: 1fr 1.8fr; gap: 3rem; }
+      .contact-studio-img { display: none; } /* hide middle image column */
+      .contact-strip { grid-template-columns: repeat(2, 1fr); height: 340px; }
+    }
+    @media (max-width: 768px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav__links { display: none; position: fixed; inset: 0; background: var(--ink); flex-direction: column; justify-content: center; align-items: center; gap: 2rem; }
+      .nav__links.open { display: flex; }
+      .nav__hamburger { display: flex; }
+      .page-hero { padding: 7rem 1.5rem 3rem; min-height: 45vh; }
+      .contact-section { padding: 4rem 1.5rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-strip { grid-template-columns: repeat(2, 1fr); height: 220px; }
+      .footer { padding: 3rem 1.5rem 1.5rem; }
+      .footer__inner { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .contact-strip { grid-template-columns: 1fr 1fr; height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<header class="nav" id="navbar">
+  <div class="nav__logo">
+    <span class="nav__logo-mark"><img src="../images/logo.jpeg" alt="Company Logo" class="logo" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;"></span>
+    <span class="nav__logo-text">Shreeja Art</span>
+  </div>
+  <nav class="nav__links">
+    <a href="index.html"     class="nav__link">Home</a>
+    <a href="portfolio.html" class="nav__link">Portfolio</a>
+    <a href="services.html"  class="nav__link">Services</a>
+    <a href="about.html"     class="nav__link">About</a>
+    <a href="contact.html"   class="nav__link active nav__link--cta">Book Consultation</a>
+  </nav>
+  <button class="nav__hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="page-hero__bg"></div>
+  <p class="page-hero__label">Contact</p>
+  <h1 class="page-hero__title">Every space begins<br/><em>with a conversation.</em></h1>
+</section>
+
+<!-- ── CONTACT SECTION ── -->
+<section class="contact-section">
+  <div class="contact-grid">
+
+    <!-- Column 1: Studio info -->
+    <div class="contact-info">
+      <span class="section-label">Studio</span>
+      <div class="contact-info__item">
+        <span class="contact-info__label">Address</span>
+        <p>Gomti Nagar<br/>Lucknow, India 226028</p>
+      </div>
+      <div class="contact-info__item">
+        <span class="contact-info__label">Email</span>
+        <p>support@shreejaart.com</p>
+      </div>
+      <div class="contact-info__item">
+        <span class="contact-info__label">Phone</span>
+        <p>8447313643</p>
+      </div>
+      <div class="contact-info__item">
+        <span class="contact-info__label">Hours</span>
+        <p>Mon–Fri, 9am–6pm EST</p>
+      </div>
+    </div>
+
+    <!-- Column 2: Studio portrait image -->
+    <div>
+      <div class="contact-studio-img">
+        <img
+          src="../images/contact.jpg"
+          alt="Shreeja Art studio — designer working at a light-filled workspace"
+          loading="lazy"
+        />
+      </div>
+      <p class="contact-studio-caption">Our New York Studio</p>
+    </div>
+
+    <!-- Column 3: Contact form -->
+    <div class="contact-form-wrap">
+      <span class="section-label">Send a Message</span>
+      <form id="contactForm" class="contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">First Name *</label>
+            <input type="text" id="fname" name="fname" required placeholder="Your first name"/>
+            <span class="form-error" id="fnameErr"></span>
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name *</label>
+            <input type="text" id="lname" name="lname" required placeholder="Your last name"/>
+            <span class="form-error" id="lnameErr"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required placeholder="your@email.com"/>
+          <span class="form-error" id="emailErr"></span>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 (000) 000-0000"/>
+        </div>
+        <div class="form-group">
+          <label for="service">Service of Interest</label>
+          <select id="service" name="service">
+            <option value="">Select a service</option>
+            <option>Full Interior Design</option>
+            <option>Design Consultation</option>
+            <option>Space Planning</option>
+            <option>FF&amp;E Procurement</option>
+            <option>3D Visualization</option>
+            <option>Bespoke Furniture</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="budget">Project Budget</label>
+          <select id="budget" name="budget">
+            <option value="">Select budget range</option>
+            <option>Under $10,000</option>
+            <option>$10,000 – $50,000</option>
+            <option>$50,000 – $150,000</option>
+            <option>$150,000+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Tell us about your project *</label>
+          <textarea id="message" name="message" rows="5" required placeholder="Describe your space, timeline, and what you're hoping to achieve..."></textarea>
+          <span class="form-error" id="messageErr"></span>
+        </div>
+        <button type="submit" class="btn btn--primary" id="submitBtn">Send Message</button>
+        <p class="form-success" id="formSuccess"></p>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Bottom image strip: 4 project thumbnails -->
+  <div class="contact-strip">
+    <div class="contact-strip__img">
+      <img
+        src="../images/contactstrip1.jpg"
+        alt="Shreeja Art project — warm minimalist living room"
+        loading="lazy"
+      />
+    </div>
+    <div class="contact-strip__img">
+      <img
+        src="../images/NakagawaResidence.jpg"
+        alt="Shreeja Art project — Japandi-style bedroom interior"
+        loading="lazy"
+      />
+    </div>
+    <div class="contact-strip__img">
+      <img
+        src="../images/AtlasWellnessClub.jpg"
+        alt="Shreeja Art project — wellness spa interior"
+        loading="lazy"
+      />
+    </div>
+    <div class="contact-strip__img">
+      <img
+        src="../images/contactstrip4.jpg"
+        alt="Shreeja Art project — Parisian bistro interior"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <span class="nav__logo-mark"><img src="../images/logo.jpeg" alt="Company Logo" class="logo" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;"></span>
+      <span class="nav__logo-text">Shreeja Art</span>
+    </div>
+    <div class="footer__links">
+      <h4>Explore</h4>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="services.html">Services</a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <p>© 2026 Shreeja Art.</p>
+    <a href="../admin/login.html" class="footer__admin-link">Admin</a>
+  </div>
+</footer>
+
+<script>
+  /* ── Storage helper ── */
+  const Storage = {
+    get(k) { try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; } },
+    push(k, item) {
+      const a = Storage.get(k);
+      a.push({ ...item, id: Date.now(), date: new Date().toISOString() });
+      localStorage.setItem(k, JSON.stringify(a));
+    }
+  };
+
+  /* ── Hamburger ── */
+  document.getElementById('hamburger').addEventListener('click', function() {
+    this.classList.toggle('open');
+    document.querySelector('.nav__links').classList.toggle('open');
+  });
+
+  /* ── Form validation & submit ── */
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+
+    const fields = [
+      { id: 'fname',   err: 'fnameErr',   msg: 'First name is required.' },
+      { id: 'lname',   err: 'lnameErr',   msg: 'Last name is required.' },
+      { id: 'message', err: 'messageErr', msg: 'Please describe your project.' }
+    ];
+    fields.forEach(f => {
+      const el    = document.getElementById(f.id);
+      const errEl = document.getElementById(f.err);
+      if (!el.value.trim()) { errEl.textContent = f.msg; valid = false; }
+      else { errEl.textContent = ''; }
+    });
+
+    const emailEl  = document.getElementById('email');
+    const emailErr = document.getElementById('emailErr');
+    if (!emailEl.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      emailErr.textContent = 'Enter a valid email address.'; valid = false;
+    } else { emailErr.textContent = ''; }
+
+    if (!valid) return;
+
+    Storage.push('enquiries', {
+      fname:   document.getElementById('fname').value,
+      lname:   document.getElementById('lname').value,
+      email:   emailEl.value,
+      phone:   document.getElementById('phone').value,
+      service: document.getElementById('service').value,
+      budget:  document.getElementById('budget').value,
+      message: document.getElementById('message').value
+    });
+
+    const success = document.getElementById('formSuccess');
+    success.textContent = "✓ Message received. We'll be in touch within one business day.";
+    success.style.color = '#C4A882';
+    form.reset();
+  });
+</script>
+</body>
+</html>

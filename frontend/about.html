@@ -1,0 +1,142 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — Shreeja Art</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body>
+<header class="nav nav--scrolled" id="navbar">
+  <div class="nav__logo"><span class="nav__logo-mark">S</span><span class="nav__logo-text">Shreeja Art</span></div>
+  <nav class="nav__links">
+    <a href="index.html" class="nav__link">Home</a>
+    <a href="portfolio.html" class="nav__link">Portfolio</a>
+    <a href="services.html" class="nav__link">Services</a>
+    <a href="about.html" class="nav__link active">About</a>
+    <a href="contact.html" class="nav__link nav__link--cta">Book Consultation</a>
+  </nav>
+  <button class="nav__hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</header>
+<section class="page-hero">
+  <p class="page-hero__label">About</p>
+  <h1 class="page-hero__title">A studio built on<br/><em>deliberate curiosity.</em></h1>
+</section>
+<section class="about-section">
+  <div class="about-story">
+    <p class="section-label">Our Story</p>
+    <div class="about-story__text">
+      <p>Shreeja Art was founded in 2026 by Sandeep Pandey after a decade of leading interiors at large practices — and a growing conviction that the field had traded intimacy for efficiency. The studio began with a single commission and one principle: every space deserves to be understood before it is designed.</p>
+      <p>Today, we are a team of twelve designers, architects, and makers working across four continents. We do not have a signature style. We have a process that reliably produces work that feels, to the people who inhabit it, like it could not have been any other way.</p>
+    </div>
+  </div>
+  <div class="team-section">
+    <div class="section-header"><p class="section-label">The Team</p><h2 class="section-title">People behind the practice</h2></div>
+    <div class="team-grid" id="teamGrid"></div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand"><span class="nav__logo-mark">S</span><span class="nav__logo-text">Shreeja Art</span></div>
+    <div class="footer__links"><h4>Explore</h4><a href="portfolio.html">Portfolio</a><a href="contact.html">Contact</a></div>
+  </div>
+  <div class="footer__bottom"><p>© 2025 Shreeja Art.</p><a href="../admin/login.html" class="footer__admin-link">Admin</a></div>
+</footer>
+<script src="js/data.js"></script>
+<script>
+  document.getElementById('hamburger')?.addEventListener('click', function() { this.classList.toggle('open'); document.querySelector('.nav__links').classList.toggle('open'); });
+  document.getElementById('teamGrid').innerHTML = LuminaeData.team.map(m => `
+    <div class="team-card">
+      <div class="team-card__avatar">${m.name.split(' ').map(n=>n[0]).join('')}</div>
+      <h3 class="team-card__name">${m.name}</h3>
+      <p class="team-card__role">${m.role}</p>
+      <p class="team-card__bio">${m.bio}</p>
+    </div>
+  `).join('');
+</script>
+</body>
+</html> -->
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — Shreeja Art</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="stylesheet" href="css/pages.css"/>
+</head>
+<body>
+<header class="nav nav--scrolled" id="navbar">
+  <div class="nav__logo">
+    <a href="../frontend/index.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+        <span class="nav__logo-mark">
+            <img src="../images/logo.jpeg"
+                 alt="Company Logo"
+                 style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;">
+        </span><span class="nav__logo-text">Shreeja Art</span></div>
+  <nav class="nav__links">
+    <a href="index.html" class="nav__link">Home</a>
+    <a href="portfolio.html" class="nav__link">Portfolio</a>
+    <a href="services.html" class="nav__link">Services</a>
+    <a href="about.html" class="nav__link active">About</a>
+    <a href="contact.html" class="nav__link nav__link--cta">Book Consultation</a>
+  </nav>
+  <button class="nav__hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</header>
+<!-- <section class="page-hero">
+  <p class="page-hero__label">About</p>
+  <h1 class="page-hero__title">A studio built on<br/><em>deliberate curiosity.</em></h1>
+</section> -->
+<!-- <section class="page-hero" style="position: relative; min-height: 62vh; display: flex; flex-direction: column; align-items: left; justify-content: center; text-align: left; padding: 2rem; background-image: linear-gradient(180deg, rgba(24,18,14,0.35) 0%, rgba(24,18,14,0.6) 100%), url('https://images.unsplash.com/photo-1759238136854-a43787126db7?q=80&w=2400&auto=format&fit=crop'); background-size: cover; background-position: center; color: #fff;">
+  <p class="page-hero__label" style="color: #C4A882; opacity: 0.85;">About</p>
+  <h1 class="page-hero__title" style="color: #fff;">A studio built on<br/><em style="color: #8B7355;">deliberate curiosity.</em></h1>
+</section> -->
+<section class="page-hero" style="position: relative; min-height: 62vh; display: flex; flex-direction: column; align-items: left; justify-content: center; text-align: left; padding: 2rem; color: #fff;">
+  <div style="position: absolute; inset: 0; background-image: url('../images/aboutbackground.jpg'); background-size: cover; background-position: center; opacity: 0.5; z-index: 0;"></div>
+  <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(24,18,14,0.35) 0%, rgba(24,18,14,0.6) 100%); z-index: 1;"></div>
+  <div style="position: relative; z-index: 2;">
+    <p class="page-hero__label" style="color: #C4A882;">About</p>
+    <h1 class="page-hero__title" style="color: #fff;">A studio built on<br/><em style="color: #C4A882;">deliberate curiosity.</em></h1>
+  </div>
+</section>
+<section class="about-section">
+  <div class="about-story">
+    <p class="section-label">Our Story</p>
+    <div class="about-story__text">
+      <p>Shreeja Art was founded in 2026 by Sandeep Pandey after a decade of leading interiors at large practices — and a growing conviction that the field had traded intimacy for efficiency. The studio began with a single commission and one principle: every space deserves to be understood before it is designed.</p>
+      <p>Today, we are a team of twelve designers, architects, and makers working across four continents. We do not have a signature style. We have a process that reliably produces work that feels, to the people who inhabit it, like it could not have been any other way.</p>
+    </div>
+  </div>
+  <div class="team-section">
+    <div class="section-header"><p class="section-label">The Team</p><h2 class="section-title">People behind the practice</h2></div>
+    <div class="team-grid" id="teamGrid"></div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand"><span class="nav__logo-mark"><img src="../images/logo.jpeg" alt="Company Logo" class="logo" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;"></span><span class="nav__logo-text">Shreeja Art</span></div>
+    <div class="footer__links"><h4>Explore</h4><a href="portfolio.html">Portfolio</a><a href="contact.html">Contact</a></div>
+  </div>
+  <div class="footer__bottom"><p>© 2025 Shreeja Art.</p><a href="../admin/login.html" class="footer__admin-link">Admin</a></div>
+</footer>
+<script src="js/data.js"></script>
+<script>
+  document.getElementById('hamburger')?.addEventListener('click', function() { this.classList.toggle('open'); document.querySelector('.nav__links').classList.toggle('open'); });
+  document.getElementById('teamGrid').innerHTML = LuminaeData.team.map(m => `
+    <div class="team-card">
+      <div class="team-card__avatar">${m.name.split(' ').map(n=>n[0]).join('')}</div>
+      <h3 class="team-card__name">${m.name}</h3>
+      <p class="team-card__role">${m.role}</p>
+      <p class="team-card__bio">${m.bio}</p>
+    </div>
+  `).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings — Luminae Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/admin.css"/>
+</head>
+<body class="admin-body">
+<aside class="sidebar">
+  <div class="sidebar__logo"><span class="logo-mark">L</span><span class="logo-text">Luminae</span></div>
+  <nav class="sidebar__nav">
+    <a href="dashboard.html" class="sidebar__link">◈ Dashboard</a>
+    <a href="enquiries.html" class="sidebar__link">◇ Enquiries</a>
+    <a href="subscribers.html" class="sidebar__link">◻ Subscribers</a>
+    <a href="projects.html" class="sidebar__link">◈ Projects</a>
+    <a href="settings.html" class="sidebar__link active">⊞ Settings</a>
+  </nav>
+  <button class="sidebar__logout" id="logoutBtn">Sign Out</button>
+</aside>
+<main class="admin-main">
+  <header class="admin-header"><h1 class="admin-header__title">Settings</h1></header>
+  <section class="admin-card">
+    <h2 style="margin-bottom:1.5rem;font-size:1rem;">Studio Information</h2>
+    <div class="settings-form" id="settingsForm">
+      <div class="form-group"><label>Studio Name</label><input type="text" id="sName" value="Luminae Interiors"/></div>
+      <div class="form-group"><label>Contact Email</label><input type="email" id="sEmail" value="hello@luminae.studio"/></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="sPhone" value="+1 (212) 555-0189"/></div>
+      <div class="form-group"><label>Address</label><textarea id="sAddr" rows="2">12 Amber Lane, Design Quarter, New York, NY 10014</textarea></div>
+      <button class="admin-btn admin-btn--primary" id="saveSettings">Save Changes</button>
+      <p id="settingsSaved" style="color:#C4A882;font-size:0.75rem;margin-top:0.5rem;min-height:1rem;"></p>
+    </div>
+  </section>
+  <section class="admin-card" style="margin-top:1.5rem;">
+    <h2 style="margin-bottom:1.5rem;font-size:1rem;">Change Password</h2>
+    <div class="form-group"><label>Current Password</label><input type="password" id="curPw"/></div>
+    <div class="form-group"><label>New Password</label><input type="password" id="newPw"/></div>
+    <div class="form-group"><label>Confirm New Password</label><input type="password" id="confPw"/></div>
+    <button class="admin-btn admin-btn--primary" id="changePwBtn" style="margin-top:0.5rem;">Update Password</button>
+    <p id="pwMsg" style="font-size:0.75rem;margin-top:0.5rem;min-height:1rem;"></p>
+  </section>
+  <section class="admin-card" style="margin-top:1.5rem;border-color:rgba(200,80,80,0.2);">
+    <h2 style="margin-bottom:0.75rem;font-size:1rem;color:#e07070;">Danger Zone</h2>
+    <p style="font-size:0.85rem;opacity:0.6;margin-bottom:1rem;">Permanently delete all enquiries and subscribers. This cannot be undone.</p>
+    <button class="admin-btn" style="background:#e07070;color:#fff;" id="nukeBtn">Clear All Data</button>
+  </section>
+</main>
+<script>
+  if (localStorage.getItem('admin_auth') !== 'true') location.href = 'login.html';
+  document.getElementById('logoutBtn').addEventListener('click', () => { localStorage.removeItem('admin_auth'); location.href = 'login.html'; });
+  document.getElementById('saveSettings').addEventListener('click', () => { document.getElementById('settingsSaved').textContent = '✓ Settings saved.'; setTimeout(() => document.getElementById('settingsSaved').textContent = '', 3000); });
+  document.getElementById('changePwBtn').addEventListener('click', () => {
+    const cur = document.getElementById('curPw').value, n = document.getElementById('newPw').value, c = document.getElementById('confPw').value;
+    const msg = document.getElementById('pwMsg');
+    if (cur !== 'luminae2025') { msg.style.color='#e07070'; msg.textContent = 'Current password incorrect.'; return; }
+    if (n !== c) { msg.style.color='#e07070'; msg.textContent = 'New passwords do not match.'; return; }
+    if (n.length < 6) { msg.style.color='#e07070'; msg.textContent = 'Password must be at least 6 characters.'; return; }
+    msg.style.color='#C4A882'; msg.textContent = '✓ Password updated (demo only — resets on reload).';
+  });
+  document.getElementById('nukeBtn').addEventListener('click', () => {
+    if (confirm('Are you absolutely sure? This deletes all enquiries and subscribers.')) {
+      localStorage.removeItem('enquiries'); localStorage.removeItem('subscribers');
+      alert('All data cleared.');
+    }
+  });
+</script>
+</body>
+</html> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings — Shreeja Art Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --c-bg:       #F4F5F7;
+      --c-surface:  #FFFFFF;
+      --c-border:   #E5E7EB;
+      --c-ink:      #111827;
+      --c-mid:      #6B7280;
+      --c-muted:    #9CA3AF;
+      --c-brass:    #B8923A;
+      --c-brass-lt: #D4AB5A;
+      --c-ember:    #DC2626;
+      --c-sidebar:  #1A1814;
+      --ff:      'DM Sans', system-ui, sans-serif;
+      --ff-mono: 'DM Mono', monospace;
+      --r: 8px;
+      --tr: 0.2s ease;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── App shell ── */
+    body {
+      display: flex;
+      min-height: 100vh;
+      background: var(--c-bg);
+      font-family: var(--ff);
+      font-size: 14px;
+      color: var(--c-ink);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 240px; flex-shrink: 0;
+      background: var(--c-sidebar); color: #fff;
+      display: flex; flex-direction: column;
+      position: sticky; top: 0; height: 100vh;
+    }
+    .sidebar__logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 24px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .logo-mark {
+      display: flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px;
+      border: 1.5px solid var(--c-brass); color: var(--c-brass);
+      font-family: Georgia, serif; font-size: 1.1rem;
+    }
+    .logo-text {
+      font-family: var(--ff-mono); font-size: 0.7rem;
+      letter-spacing: 0.25em; color: #fff;
+    }
+    .sidebar__nav {
+      flex: 1; padding: 16px 12px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .sidebar__link {
+      display: flex; align-items: center;
+      padding: 10px 12px; border-radius: var(--r);
+      color: rgba(255,255,255,0.55); font-size: 0.88rem;
+      text-decoration: none; transition: all var(--tr);
+    }
+    .sidebar__link:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .sidebar__link.active { background: rgba(184,146,58,0.15); color: var(--c-brass-lt); }
+    .sidebar__logout {
+      padding: 16px 20px; background: none; border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.3); font-family: var(--ff);
+      font-size: 0.78rem; cursor: pointer; text-align: left;
+      transition: color var(--tr);
+    }
+    .sidebar__logout:hover { color: #fff; }
+
+    /* ── Main (centred) ── */
+    .admin-main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 36px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .admin-main__inner {
+      width: 100%;
+      max-width: 680px;           /* narrow — settings suit a tighter column */
+    }
+
+    /* ── Header ── */
+    .admin-header { margin-bottom: 28px; }
+    .admin-header__title { font-size: 1.5rem; font-weight: 600; }
+
+    /* ── Cards ── */
+    .admin-card {
+      background: var(--c-surface);
+      border-radius: var(--r);
+      padding: 28px 32px;
+      box-shadow: var(--shadow);
+      width: 100%;
+    }
+    .admin-card + .admin-card { margin-top: 20px; }
+    .admin-card--danger { border: 1px solid rgba(220,38,38,0.2); }
+
+    .card-title {
+      font-size: 0.92rem; font-weight: 600;
+      color: var(--c-ink); margin-bottom: 20px;
+    }
+    .card-title--danger { color: var(--c-ember); }
+
+    /* ── Form elements ── */
+    .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 16px; }
+    .form-group:last-of-type { margin-bottom: 0; }
+    .form-group label {
+      font-size: 0.72rem; font-weight: 500; color: var(--c-mid);
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .form-group input,
+    .form-group textarea {
+      padding: 10px 13px;
+      border: 1.5px solid var(--c-border); border-radius: var(--r);
+      font-family: var(--ff); font-size: 0.9rem; color: var(--c-ink);
+      outline: none; transition: border-color var(--tr);
+      background: var(--c-surface);
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--c-brass); }
+    .form-group textarea { resize: vertical; }
+
+    /* ── Buttons ── */
+    .btn {
+      padding: 9px 20px; border: none; border-radius: var(--r);
+      font-family: var(--ff); font-size: 0.82rem; font-weight: 500;
+      cursor: pointer; transition: background var(--tr);
+    }
+    .btn--primary { background: var(--c-brass); color: #fff; }
+    .btn--primary:hover { background: var(--c-brass-lt); }
+    .btn--danger  { background: #FEF2F2; color: var(--c-ember); border: 1.5px solid #FECACA; }
+    .btn--danger:hover  { background: #FEE2E2; }
+    .btn--destroy { background: var(--c-ember); color: #fff; }
+    .btn--destroy:hover { background: #b91c1c; }
+
+    /* ── Feedback messages ── */
+    .feedback {
+      font-family: var(--ff-mono); font-size: 0.72rem;
+      margin-top: 10px; min-height: 18px; letter-spacing: 0.03em;
+    }
+    .feedback--success { color: var(--c-brass); }
+    .feedback--error   { color: var(--c-ember); }
+
+    /* ── Divider between form and button ── */
+    .form-footer { margin-top: 20px; }
+
+    /* ── Danger zone description ── */
+    .danger-desc {
+      font-size: 0.85rem; color: var(--c-mid);
+      line-height: 1.6; margin-bottom: 16px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .admin-main { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar">
+  <div class="sidebar__logo">
+    <span class="nav__logo-mark"><img src="../images/logo.jpeg" alt="Company Logo" class="logo" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle; margin-right: 8px;"></span>
+    <span class="logo-text">Shreeja Art</span>
+  </div>
+  <nav class="sidebar__nav">
+    <a href="dashboard.html"   class="sidebar__link">◈ Dashboard</a>
+    <a href="enquiries.html"   class="sidebar__link">◇ Enquiries</a>
+    <a href="subscribers.html" class="sidebar__link">◻ Subscribers</a>
+    <a href="projects.html"    class="sidebar__link">◈ Projects</a>
+    <a href="settings.html"    class="sidebar__link active">⊞ Settings</a>
+  </nav>
+  <button class="sidebar__logout" id="logoutBtn">Sign Out</button>
+</aside>
+
+<!-- ── Main ── -->
+<main class="admin-main">
+  <div class="admin-main__inner">
+
+    <header class="admin-header">
+      <h1 class="admin-header__title">Settings</h1>
+    </header>
+
+    <!-- Studio Information -->
+    <section class="admin-card">
+      <h2 class="card-title">Studio Information</h2>
+      <div class="form-group">
+        <label for="sName">Studio Name</label>
+        <input type="text" id="sName" value="Shreeja Art"/>
+      </div>
+      <div class="form-group">
+        <label for="sEmail">Contact Email</label>
+        <input type="email" id="sEmail" value="support@shreejaart.com"/>
+      </div>
+      <div class="form-group">
+        <label for="sPhone">Phone</label>
+        <input type="tel" id="sPhone" value="8447313643"/>
+      </div>
+      <div class="form-group">
+        <label for="sAddr">Address</label>
+        <textarea id="sAddr" rows="2">Gomti Nagar, Lucknow 226028</textarea>
+      </div>
+      <div class="form-footer">
+        <button class="btn btn--primary" id="saveSettings">Save Changes</button>
+        <p class="feedback" id="settingsSaved"></p>
+      </div>
+    </section>
+
+    <!-- Change Password -->
+    <section class="admin-card">
+      <h2 class="card-title">Change Password</h2>
+      <div class="form-group">
+        <label for="curPw">Current Password</label>
+        <input type="password" id="curPw" placeholder="••••••••"/>
+      </div>
+      <div class="form-group">
+        <label for="newPw">New Password</label>
+        <input type="password" id="newPw" placeholder="••••••••"/>
+      </div>
+      <div class="form-group">
+        <label for="confPw">Confirm New Password</label>
+        <input type="password" id="confPw" placeholder="••••••••"/>
+      </div>
+      <div class="form-footer">
+        <button class="btn btn--primary" id="changePwBtn">Update Password</button>
+        <p class="feedback" id="pwMsg"></p>
+      </div>
+    </section>
+
+    <!-- Danger Zone -->
+    <section class="admin-card admin-card--danger">
+      <h2 class="card-title card-title--danger">Danger Zone</h2>
+      <p class="danger-desc">Permanently delete all enquiries and subscribers. This action cannot be undone.</p>
+      <button class="btn btn--destroy" id="nukeBtn">Clear All Data</button>
+    </section>
+
+  </div><!-- /.admin-main__inner -->
+</main>
+
+<script>
+  if (localStorage.getItem('admin_auth') !== 'true') location.href = 'login.html';
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('admin_auth');
+    location.href = 'login.html';
+  });
+
+  // Save studio info
+  document.getElementById('saveSettings').addEventListener('click', () => {
+    const el = document.getElementById('settingsSaved');
+    el.className = 'feedback feedback--success';
+    el.textContent = '✓ Settings saved.';
+    setTimeout(() => el.textContent = '', 3000);
+  });
+
+  // Change password
+  document.getElementById('changePwBtn').addEventListener('click', () => {
+    const cur  = document.getElementById('curPw').value;
+    const n    = document.getElementById('newPw').value;
+    const c    = document.getElementById('confPw').value;
+    const msg  = document.getElementById('pwMsg');
+
+    if (cur !== 'luminae2025') {
+      msg.className = 'feedback feedback--error';
+      msg.textContent = 'Current password is incorrect.'; return;
+    }
+    if (n !== c) {
+      msg.className = 'feedback feedback--error';
+      msg.textContent = 'New passwords do not match.'; return;
+    }
+    if (n.length < 6) {
+      msg.className = 'feedback feedback--error';
+      msg.textContent = 'Password must be at least 6 characters.'; return;
+    }
+    msg.className = 'feedback feedback--success';
+    msg.textContent = '✓ Password updated (demo only — resets on reload).';
+  });
+
+  // Danger zone
+  document.getElementById('nukeBtn').addEventListener('click', () => {
+    if (confirm('Are you absolutely sure? This deletes all enquiries and subscribers.')) {
+      localStorage.removeItem('enquiries');
+      localStorage.removeItem('subscribers');
+      alert('All data cleared.');
+    }
+  });
+</script>
+</body>
+</html>

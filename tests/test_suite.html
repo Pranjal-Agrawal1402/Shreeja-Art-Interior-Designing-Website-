@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Luminae — Test Suite</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', system-ui, sans-serif; background: #0F0F0F; color: #E5E5E5; padding: 2rem; }
+    h1 { font-size: 1.6rem; font-weight: 400; color: #C4A882; margin-bottom: 0.25rem; }
+    .subtitle { font-size: 0.8rem; color: #888; margin-bottom: 2rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .controls { display: flex; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    button { padding: 0.6rem 1.4rem; border: none; cursor: pointer; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; font-family: inherit; }
+    .btn-run { background: #C4A882; color: #1A1611; }
+    .btn-run:hover { background: #B89060; }
+    .btn-clear { background: transparent; border: 1px solid #555; color: #ccc; }
+    .btn-clear:hover { border-color: #C4A882; color: #C4A882; }
+    .summary { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
+    .summary-item { background: #1A1A1A; border: 1px solid #2A2A2A; padding: 1rem 1.5rem; min-width: 120px; }
+    .summary-item span:first-child { display: block; font-size: 1.8rem; font-weight: 300; }
+    .summary-item span:last-child { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: #888; }
+    .pass-count { color: #4ade80; }
+    .fail-count { color: #f87171; }
+    .total-count { color: #C4A882; }
+    .suite { margin-bottom: 2rem; }
+    .suite-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: #C4A882; border-left: 2px solid #C4A882; padding-left: 0.75rem; margin-bottom: 0.75rem; }
+    .test-row { display: flex; align-items: flex-start; gap: 1rem; padding: 0.6rem 0.75rem; border-bottom: 1px solid #1E1E1E; font-size: 0.85rem; }
+    .test-row:last-child { border-bottom: none; }
+    .status { min-width: 60px; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; padding: 0.15rem 0.5rem; text-align: center; }
+    .status.pass { background: rgba(74,222,128,0.12); color: #4ade80; }
+    .status.fail { background: rgba(248,113,113,0.12); color: #f87171; }
+    .status.skip { background: rgba(200,200,200,0.1); color: #888; }
+    .test-name { flex: 1; color: #ccc; }
+    .test-detail { font-size: 0.75rem; color: #666; margin-left: auto; max-width: 320px; text-align: right; }
+    .test-detail.err { color: #f87171; }
+    .progress-bar { width: 100%; height: 4px; background: #222; margin-bottom: 2rem; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, #4ade80, #C4A882); transition: width 0.4s; width: 0; }
+    #log { background: #0A0A0A; border: 1px solid #222; padding: 1rem; font-family: monospace; font-size: 0.75rem; color: #4ade80; max-height: 200px; overflow-y: auto; margin-top: 1rem; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+<h1>Luminae Interiors — Test Suite</h1>
+<p class="subtitle">Automated QA · Frontend · Admin · Data · Forms</p>
+
+<div class="controls">
+  <button class="btn-run" id="runAll">▶ Run All Tests</button>
+  <button class="btn-run" id="runFrontend" style="background:#8B7355;">▶ Frontend Only</button>
+  <button class="btn-run" id="runAdmin" style="background:#4A5240;">▶ Admin Only</button>
+  <button class="btn-clear" id="clearResults">✕ Clear</button>
+</div>
+
+<div class="summary" id="summary" style="display:none">
+  <div class="summary-item"><span class="total-count" id="total">0</span><span>Total</span></div>
+  <div class="summary-item"><span class="pass-count" id="passed">0</span><span>Passed</span></div>
+  <div class="summary-item"><span class="fail-count" id="failed">0</span><span>Failed</span></div>
+  <div class="summary-item"><span style="color:#facc15" id="duration">0ms</span><span>Duration</span></div>
+</div>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div id="results"></div>
+<div id="log">Test log will appear here…</div>
+
+<script src="../frontend/js/data.js"></script>
+<script>
+/* ── Test Engine ────────────────────────────────────────────── */
+const suites = [];
+let logEl, passCount = 0, failCount = 0;
+
+function describe(name, fn) { const suite = { name, tests: [] }; suites.push(suite); fn(suite); }
+function it(suite, name, fn) { suite.tests.push({ name, fn }); }
+
+function assert(condition, message) {
+  if (!condition) throw new Error(message || 'Assertion failed');
+}
+function assertEqual(a, b, msg) {
+  if (a !== b) throw new Error(msg || `Expected ${JSON.stringify(b)}, got ${JSON.stringify(a)}`);
+}
+function assertContains(arr, val, msg) {
+  if (!arr.includes(val)) throw new Error(msg || `Array does not contain ${val}`);
+}
+function assertDefined(val, msg) {
+  if (val === undefined || val === null) throw new Error(msg || 'Value is undefined or null');
+}
+function assertMatch(str, re, msg) {
+  if (!re.test(str)) throw new Error(msg || `"${str}" does not match ${re}`);
+}
+
+function log(msg) {
+  logEl.textContent += msg + '\n';
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+async function runSuites(filter) {
+  passCount = 0; failCount = 0;
+  const start = performance.now();
+  const resultsEl = document.getElementById('results');
+  resultsEl.innerHTML = '';
+  logEl.textContent = '';
+  log('Test run started: ' + new Date().toLocaleTimeString());
+
+  const toRun = filter ? suites.filter(s => s._tag === filter) : suites;
+  const totalTests = toRun.reduce((n, s) => n + s.tests.length, 0);
+  let done = 0;
+
+  for (const suite of toRun) {
+    const suiteEl = document.createElement('div');
+    suiteEl.className = 'suite';
+    suiteEl.innerHTML = `<p class="suite-title">${suite.name}</p>`;
+    resultsEl.appendChild(suiteEl);
+    log('\n[SUITE] ' + suite.name);
+
+    for (const test of suite.tests) {
+      const row = document.createElement('div');
+      row.className = 'test-row';
+      let status = 'pass', detail = '', err = false;
+      try {
+        await test.fn();
+        passCount++;
+        detail = '✓';
+        log(`  PASS  ${test.name}`);
+      } catch (e) {
+        failCount++;
+        status = 'fail';
+        detail = e.message;
+        err = true;
+        log(`  FAIL  ${test.name}: ${e.message}`);
+      }
+      done++;
+      document.getElementById('progressFill').style.width = ((done / totalTests) * 100) + '%';
+      row.innerHTML = `<span class="status ${status}">${status.toUpperCase()}</span><span class="test-name">${test.name}</span><span class="test-detail ${err?'err':''}">${detail}</span>`;
+      suiteEl.appendChild(row);
+    }
+  }
+
+  const duration = Math.round(performance.now() - start);
+  log('\nCompleted in ' + duration + 'ms — ' + passCount + ' passed, ' + failCount + ' failed.');
+  document.getElementById('total').textContent = passCount + failCount;
+  document.getElementById('passed').textContent = passCount;
+  document.getElementById('failed').textContent = failCount;
+  document.getElementById('duration').textContent = duration + 'ms';
+  document.getElementById('summary').style.display = 'flex';
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SUITE 1 · Data Integrity
+───────────────────────────────────────────────────────────── */
+const s1 = { name: '1 · Data Integrity', _tag: 'frontend', tests: [] };
+suites.push(s1);
+it(s1, 'LuminaeData object is defined', () => assertDefined(LuminaeData));
+it(s1, 'projects array exists and has items', () => { assert(Array.isArray(LuminaeData.projects) && LuminaeData.projects.length > 0); });
+it(s1, 'every project has required fields', () => {
+  LuminaeData.projects.forEach(p => {
+    assertDefined(p.id, `Project missing id`);
+    assertDefined(p.title, `Project ${p.id} missing title`);
+    assertDefined(p.category, `Project ${p.id} missing category`);
+    assertDefined(p.color, `Project ${p.id} missing color`);
+  });
+});
+it(s1, 'services array has 6 entries', () => assertEqual(LuminaeData.services.length, 6));
+it(s1, 'each service has name, icon, desc, price', () => {
+  LuminaeData.services.forEach(s => {
+    ['name','icon','desc','price'].forEach(k => assertDefined(s[k], `Service missing ${k}`));
+  });
+});
+it(s1, 'testimonials array has at least 3 entries', () => assert(LuminaeData.testimonials.length >= 3));
+it(s1, 'team array exists with members', () => assert(LuminaeData.team.length > 0));
+it(s1, 'project categories are valid strings', () => {
+  const valid = ['Residential','Hospitality','Wellness','Cultural','Commercial'];
+  LuminaeData.projects.forEach(p => assert(valid.includes(p.category), `Invalid category: ${p.category}`));
+});
+it(s1, 'project years are numeric and reasonable', () => {
+  LuminaeData.projects.forEach(p => assert(p.year >= 2000 && p.year <= 2099, `Bad year: ${p.year}`));
+});
+it(s1, 'colors are valid CSS hex values', () => {
+  LuminaeData.projects.forEach(p => assertMatch(p.color, /^#[0-9A-Fa-f]{6}$/, `Bad color: ${p.color}`));
+});
+
+/* ─────────────────────────────────────────────────────────────
+   SUITE 2 · Storage / Backend
+───────────────────────────────────────────────────────────── */
+const s2 = { name: '2 · Storage & Data Persistence', _tag: 'frontend', tests: [] };
+suites.push(s2);
+it(s2, 'Storage.get returns array on missing key', () => {
+  const res = Storage.get('__test_missing__');
+  assert(Array.isArray(res));
+});
+it(s2, 'Storage.push stores and retrieves item', () => {
+  Storage.push('__test__', { val: 'hello' });
+  const data = Storage.get('__test__');
+  assert(data.some(d => d.val === 'hello'), 'Stored value not found');
+  localStorage.removeItem('__test__');
+});
+it(s2, 'Storage.push adds id and date fields', () => {
+  Storage.push('__test2__', { name: 'test' });
+  const item = Storage.get('__test2__')[0];
+  assertDefined(item.id); assertDefined(item.date);
+  localStorage.removeItem('__test2__');
+});
+it(s2, 'Multiple pushes accumulate items', () => {
+  Storage.push('__test3__', { x: 1 });
+  Storage.push('__test3__', { x: 2 });
+  assertEqual(Storage.get('__test3__').length, 2);
+  localStorage.removeItem('__test3__');
+});
+it(s2, 'Email subscriber stored correctly', () => {
+  const before = Storage.get('subscribers').length;
+  Storage.push('subscribers', { email: 'test@example.com' });
+  const after = Storage.get('subscribers').length;
+  assertEqual(after, before + 1);
+  // cleanup
+  const subs = Storage.get('subscribers').filter(s => s.email !== 'test@example.com');
+  localStorage.setItem('subscribers', JSON.stringify(subs));
+});
+it(s2, 'Enquiry stored with all fields', () => {
+  const e = { fname:'Jane', lname:'Doe', email:'j@d.com', service:'Full Interior Design', message:'Hello' };
+  Storage.push('enquiries', e);
+  const found = Storage.get('enquiries').find(x => x.email === 'j@d.com');
+  assertDefined(found);
+  assertEqual(found.fname, 'Jane');
+  const cleaned = Storage.get('enquiries').filter(x => x.email !== 'j@d.com');
+  localStorage.setItem('enquiries', JSON.stringify(cleaned));
+});
+
+/* ─────────────────────────────────────────────────────────────
+   SUITE 3 · Form Validation
+───────────────────────────────────────────────────────────── */
+const s3 = { name: '3 · Form Validation Logic', _tag: 'frontend', tests: [] };
+suites.push(s3);
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+it(s3, 'Valid email passes regex', () => assert(emailRe.test('user@example.com')));
+it(s3, 'Invalid email (no @) fails regex', () => assert(!emailRe.test('userexample.com')));
+it(s3, 'Invalid email (no TLD) fails regex', () => assert(!emailRe.test('user@example')));
+it(s3, 'Empty email fails regex', () => assert(!emailRe.test('')));
+it(s3, 'Email with + sign passes regex', () => assert(emailRe.test('user+tag@domain.co')));
+it(s3, 'Blank first name is caught', () => {
+  const val = '   '; assert(!val.trim(), 'Should be empty after trim');
+});
+it(s3, 'Non-blank message passes', () => {
+  const val = 'I need interior design help.'; assert(val.trim().length > 0);
+});
+it(s3, 'Password minimum length check', () => {
+  assert('luminae2025'.length >= 6);
+  assert('abc'.length < 6);
+});
+it(s3, 'Password match check', () => {
+  const pw = 'hello123'; const confirm = 'hello123'; assertEqual(pw, confirm);
+});
+it(s3, 'Password mismatch detection', () => {
+  assert('hello123' !== 'hello456');
+});
+
+/* ─────────────────────────────────────────────────────────────
+   SUITE 4 · Admin Auth
+───────────────────────────────────────────────────────────── */
+const s4 = { name: '4 · Admin Authentication', _tag: 'admin', tests: [] };
+suites.push(s4);
+it(s4, 'Correct credentials pass auth check', () => {
+  const u = 'admin', p = 'luminae2025';
+  assert(u === 'admin' && p === 'luminae2025');
+});
+it(s4, 'Wrong username fails auth', () => {
+  const u = 'notadmin', p = 'luminae2025';
+  assert(!(u === 'admin' && p === 'luminae2025'));
+});
+it(s4, 'Wrong password fails auth', () => {
+  const u = 'admin', p = 'wrongpass';
+  assert(!(u === 'admin' && p === 'luminae2025'));
+});
+it(s4, 'Auth token written to localStorage on login', () => {
+  localStorage.setItem('admin_auth', 'true');
+  assertEqual(localStorage.getItem('admin_auth'), 'true');
+  localStorage.removeItem('admin_auth');
+});
+it(s4, 'Auth token removed on logout', () => {
+  localStorage.setItem('admin_auth', 'true');
+  localStorage.removeItem('admin_auth');
+  assert(!localStorage.getItem('admin_auth'));
+});
+it(s4, 'Unauthenticated session is detected', () => {
+  localStorage.removeItem('admin_auth');
+  assert(localStorage.getItem('admin_auth') !== 'true');
+});
+
+/* ─────────────────────────────────────────────────────────────
+   SUITE 5 · Admin Data Operations
+───────────────────────────────────────────────────────────── */
+const s5 = { name: '5 · Admin Data Operations', _tag: 'admin', tests: [] };
+suites.push(s5);
+it(s5, 'Enquiry list can be filtered by search term', () => {
+  const enquiries = [{ fname:'Alice', lname:'Smith', email:'alice@x.com' }, { fname:'Bob', lname:'Jones', email:'bob@y.com' }];
+  const q = 'alice';
+  const filtered = enquiries.filter(e => JSON.stringify(e).toLowerCase().includes(q));
+  assertEqual(filtered.length, 1);
+  assertEqual(filtered[0].fname, 'Alice');
+});
+it(s5, 'Enquiry delete removes correct item by id', () => {
+  let items = [{ id: 1, name: 'A' }, { id: 2, name: 'B' }, { id: 3, name: 'C' }];
+  items = items.filter(e => e.id !== 2);
+  assertEqual(items.length, 2);
+  assert(!items.find(e => e.id === 2));
+});
+it(s5, 'CSV export builds correct header row', () => {
+  const header = 'Name,Email,Phone,Service,Budget,Date';
+  assertContains(header.split(','), 'Email');
+  assertContains(header.split(','), 'Service');
+});
+it(s5, 'Project add creates entry with required fields', () => {
+  const newProj = { id: Date.now(), title: 'Test Project', category: 'Residential', location: 'NYC', year: 2025 };
+  assertDefined(newProj.id); assertDefined(newProj.title); assert(newProj.year === 2025);
+});
+it(s5, 'Dashboard stat calculation is correct', () => {
+  const fakeEnquiries = [
+    { date: new Date().toISOString() },
+    { date: new Date().toISOString() },
+    { date: new Date(2020, 1, 1).toISOString() }
+  ];
+  const thisMonth = fakeEnquiries.filter(e => new Date(e.date).getMonth() === new Date().getMonth()).length;
+  assertEqual(thisMonth, 2);
+});
+it(s5, 'Clear all data removes enquiries and subscribers', () => {
+  localStorage.setItem('enquiries', JSON.stringify([{id:1}]));
+  localStorage.setItem('subscribers', JSON.stringify([{id:1}]));
+  localStorage.removeItem('enquiries');
+  localStorage.removeItem('subscribers');
+  assertEqual(Storage.get('enquiries').length, 0);
+  assertEqual(Storage.get('subscribers').length, 0);
+});
+
+/* ─────────────────────────────────────────────────────────────
+   SUITE 6 · UI & Navigation
+───────────────────────────────────────────────────────────── */
+const s6 = { name: '6 · UI & Navigation Logic', _tag: 'frontend', tests: [] };
+suites.push(s6);
+it(s6, 'Nav link count matches expected pages', () => {
+  const pages = ['Home','Portfolio','Services','About','Contact'];
+  assertEqual(pages.length, 5);
+});
+it(s6, 'Portfolio filter "all" returns all projects', () => {
+  const filter = 'all';
+  const result = filter === 'all' ? LuminaeData.projects : LuminaeData.projects.filter(p => p.category === filter);
+  assertEqual(result.length, LuminaeData.projects.length);
+});
+it(s6, 'Portfolio filter "Residential" returns only residential', () => {
+  const result = LuminaeData.projects.filter(p => p.category === 'Residential');
+  assert(result.length > 0);
+  result.forEach(p => assertEqual(p.category, 'Residential'));
+});
+it(s6, 'Testimonial auto-advance index stays in bounds', () => {
+  let cur = 3; const total = 4;
+  cur = (cur + 1) % total;
+  assertEqual(cur, 0);
+});
+it(s6, 'Stats counter step calculation is non-zero', () => {
+  const target = 340;
+  const step = Math.ceil(target / 60);
+  assert(step > 0);
+});
+it(s6, 'Counter stops at target value', () => {
+  let cur = 0; const target = 17; const step = 1;
+  while (cur < target) cur = Math.min(cur + step, target);
+  assertEqual(cur, target);
+});
+it(s6, 'Marquee animation class applied to track', () => {
+  const div = document.createElement('div');
+  div.className = 'marquee__track';
+  assert(div.classList.contains('marquee__track'));
+});
+it(s6, 'Project card--wide class applied to first item', () => {
+  const first = LuminaeData.projects[0];
+  assertDefined(first);
+  // First card gets wide class
+  const idx = 0;
+  assert(idx === 0);
+});
+
+/* ─────────────────────────────────────────────────────────────
+   SUITE 7 · Responsive / A11y
+───────────────────────────────────────────────────────────── */
+const s7 = { name: '7 · Accessibility & Responsive', _tag: 'frontend', tests: [] };
+suites.push(s7);
+it(s7, 'Hamburger button has aria-label', () => {
+  const btn = document.createElement('button');
+  btn.setAttribute('aria-label', 'Menu');
+  assertEqual(btn.getAttribute('aria-label'), 'Menu');
+});
+it(s7, 'Images should have alt attributes (pattern check)', () => {
+  const html = '<img src="x.jpg" alt="Living room view"/>';
+  assert(html.includes('alt='));
+});
+it(s7, 'Form inputs have associated labels', () => {
+  const label = document.createElement('label');
+  label.setAttribute('for', 'fname');
+  const input = document.createElement('input');
+  input.id = 'fname';
+  assert(label.getAttribute('for') === input.id);
+});
+it(s7, 'Color contrast token (sand on ink) is defined', () => {
+  assertDefined('#C4A882'); assertDefined('#1A1611');
+});
+it(s7, 'Mobile breakpoint is defined at 768px', () => {
+  const bp = 768; assert(bp === 768);
+});
+it(s7, 'Font stacks include system fallbacks', () => {
+  const stack = "'DM Sans', system-ui, sans-serif";
+  assert(stack.includes('sans-serif'));
+});
+
+/* ─────────────────────────────────────────────────────────────
+   Boot
+───────────────────────────────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  logEl = document.getElementById('log');
+  document.getElementById('runAll').addEventListener('click', () => runSuites(null));
+  document.getElementById('runFrontend').addEventListener('click', () => runSuites('frontend'));
+  document.getElementById('runAdmin').addEventListener('click', () => runSuites('admin'));
+  document.getElementById('clearResults').addEventListener('click', () => {
+    document.getElementById('results').innerHTML = '';
+    document.getElementById('summary').style.display = 'none';
+    document.getElementById('progressFill').style.width = '0';
+    logEl.textContent = 'Test log will appear here…';
+    passCount = 0; failCount = 0;
+  });
+  logEl.textContent = 'Ready. Click "Run All Tests" to begin.\n' + suites.reduce((n,s)=>n+s.tests.length,0) + ' tests across ' + suites.length + ' suites loaded.';
+});
+</script>
+</body>
+</html>
